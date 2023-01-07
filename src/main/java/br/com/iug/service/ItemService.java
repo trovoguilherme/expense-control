@@ -1,10 +1,11 @@
 package br.com.iug.service;
 
+import br.com.iug.entity.Banco;
 import br.com.iug.entity.Item;
 import br.com.iug.entity.request.ItemRequest;
+import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,15 @@ public class ItemService {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
 
-    public double getTotalValue(String banco) {
+    public double getTotalValue(String banco) throws BancoNotFoundException {
+
+        try {
+            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco))) {
+                return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValorRestante).sum();
+            }
+        } catch (IllegalArgumentException e) {
+            throw new BancoNotFoundException("Banco '"+banco+"' não encontrado");
+        }
         return itemRepository.findAll().stream().mapToDouble(Item::getValorRestante).sum();
     }
 

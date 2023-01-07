@@ -1,9 +1,8 @@
 package br.com.iug.controller;
 
-import br.com.iug.entity.Banco;
-import br.com.iug.entity.history.ItemHistory;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.response.ItemResponse;
+import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.service.ItemService;
 import jakarta.validation.Valid;
@@ -44,7 +43,7 @@ public class ItemController {
     }
 
     @GetMapping("/gastos")
-    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco) {
+    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco) throws BancoNotFoundException {
         return ResponseEntity.ok(itemService.getTotalValue(banco));
     }
 
