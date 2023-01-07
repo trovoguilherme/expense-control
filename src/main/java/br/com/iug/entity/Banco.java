@@ -14,7 +14,7 @@ public enum Banco {
 
     private final Integer id;
 
-    private static final Map<Integer, Banco> BANCO_ID_MAPPING = new HashMap<>();
+    public static final Map<Integer, Banco> BANCO_ID_MAPPING = new HashMap<>();
 
     static {
         Arrays.stream(Banco.values()).forEach(banco -> BANCO_ID_MAPPING.put(banco.id, banco));
