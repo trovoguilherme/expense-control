@@ -13,7 +13,7 @@ public class RestExceptionHandler {
     @Value("Recurso não encontrado")
     private String resourceNotFound;
 
-    @ExceptionHandler(ItemNotFoundException.class)
+    @ExceptionHandler({ItemNotFoundException.class, BancoNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseException notFoundException(HttpServletRequest request, Exception exception) {
         return new ResponseException(request, resourceNotFound, exception.getMessage());
