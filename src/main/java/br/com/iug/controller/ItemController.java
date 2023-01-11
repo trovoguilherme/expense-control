@@ -1,9 +1,11 @@
 package br.com.iug.controller;
 
+import br.com.iug.entity.history.ItemHistory;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.response.ItemResponse;
 import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
+import br.com.iug.service.ItemHistoryService;
 import br.com.iug.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 public class ItemController {
 
     private final ItemService itemService;
+
+    private final ItemHistoryService itemHistoryService;
 
     @GetMapping
     public ResponseEntity<List<ItemResponse>> findAllWithParams(@RequestParam(value = "nome", required = false) String nome,
@@ -76,6 +80,16 @@ public class ItemController {
     public ResponseEntity<Void> delete(@PathVariable("id") long id) throws ItemNotFoundException {
         itemService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<ItemHistory>> findAllHistory(@RequestParam(value = "banco", required = false) String banco) {
+        return ResponseEntity.ok(itemHistoryService.findAll(banco));
+    }
+
+    @GetMapping("/{name}/history")
+    public ResponseEntity<ItemHistory> findHistoryByName(@PathVariable(value = "name") String nome) throws ItemNotFoundException {
+        return ResponseEntity.ok(itemHistoryService.findByName(nome));
     }
 
 }
