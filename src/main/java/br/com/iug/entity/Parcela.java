@@ -40,7 +40,7 @@ public class Parcela {
         this.qtdRestante--;
     }
 
-    public boolean isAllPay() {
+    public boolean isPay() {
         return this.qtdRestante == 0;
     }
 

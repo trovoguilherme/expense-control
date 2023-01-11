@@ -24,6 +24,10 @@ public class ItemService {
         return itemRepository.findAllWithParams(nome, banco);
     }
 
+    public Item findByNome(String nome) throws ItemNotFoundException {
+        return itemRepository.findByNome(nome).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
+    }
+
     public Item findById(long id) throws ItemNotFoundException {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
@@ -52,33 +56,35 @@ public class ItemService {
         return itemRepository.save(itemFound);
     }
 
-    public void payByParam(String nome, String banco) throws ItemNotFoundException {
-        var itens = findAllWithParams(nome, banco);
+    public void pay(String nome) throws ItemNotFoundException {
+        var itemFound = findByNome(nome);
+        payItemOrSaveInHistory(itemFound);
+    }
+
+    public void payByBanco(String banco) throws ItemNotFoundException {
+        var itens = itemRepository.findAllByBanco(banco);
 
         if (itens.isEmpty()) {
-            if (banco == null && !nome.isBlank()) {
-                throw new ItemNotFoundException("Item "+nome+" não encontrado!");
-            } else if (nome == null && !banco.isBlank()) {
-                throw new ItemNotFoundException("Itens com o banco "+banco+" não encontrado!");
-            }
+            throw new ItemNotFoundException("Itens com o banco "+banco+" não encontrado!");
         }
 
-        itens.forEach(i -> {
-            i.pay();
-            if (i.getParcela().isAllPay()) {
-                itemHistoryService.save(i);
-                itemRepository.deleteById(i.getId());
-            }
-        });
-
-        var itensNotPaid = itens.stream().filter(i -> i.getValorRestante() != 0).collect(Collectors.toList());
-
-        itemRepository.saveAll(itensNotPaid);
+        itens.forEach(this::payItemOrSaveInHistory);
     }
 
     public void deleteById(long id) throws ItemNotFoundException {
         findById(id);
         itemRepository.deleteById(id);
+    }
+
+    private void payItemOrSaveInHistory(Item item) {
+        item.getParcela().pay();
+
+        if (item.getParcela().isPay()) {
+            itemHistoryService.save(item);
+            itemRepository.deleteById(item.getId());
+        } else {
+            itemRepository.save(item);
+        }
     }
 
 }

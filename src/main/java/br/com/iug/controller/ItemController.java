@@ -68,10 +68,16 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping
-    public ResponseEntity<Void> payItem(@RequestParam(value = "nome", required = false) String nome,
-                                        @RequestParam(value = "banco", required = false) String banco) throws ItemNotFoundException {
-        itemService.payByParam(nome, banco);
+    @PatchMapping("/pay")
+    public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") String banco) throws ItemNotFoundException {
+        itemService.payByBanco(banco);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{name}/pay")
+    public ResponseEntity<Void> payItem(@PathVariable("name") String nome) throws ItemNotFoundException {
+        itemService.pay(nome);
 
         return ResponseEntity.ok().build();
     }
