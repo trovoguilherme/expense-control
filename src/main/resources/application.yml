@@ -14,3 +14,8 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+
+# Default path: /swagger-ui/index.html
+springdoc:
+  swagger-ui.path: /swagger
+  show-actuator: true
