@@ -64,21 +64,18 @@ public class ItemController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ItemRequest itemRequest) throws ItemNotFoundException {
         itemService.update(id, itemRequest);
-
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/pay")
     public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") String banco) throws ItemNotFoundException {
         itemService.payByBanco(banco);
-
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{name}/pay")
     public ResponseEntity<Void> payItem(@PathVariable("name") String nome) throws ItemNotFoundException {
         itemService.pay(nome);
-
         return ResponseEntity.ok().build();
     }
 
