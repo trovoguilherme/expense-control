@@ -29,4 +29,8 @@ public class ItemHistoryService {
     public ItemHistory findByName(String nome) throws ItemNotFoundException {
         return itemHistoryRepository.findByNome(nome).orElseThrow(() -> new ItemNotFoundException("Histórico do item "+nome+" não encontrado"));
     }
+
+    public ItemHistory findById(long id) throws ItemNotFoundException {
+        return itemHistoryRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Histórico do item "+id+" não encontrado"));
+    }
 }
