@@ -1,6 +1,5 @@
 package br.com.iug.entity.history;
 
-import br.com.iug.entity.Banco;
 import br.com.iug.entity.Item;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -56,4 +55,15 @@ public class ItemHistory {
                 .build();
     }
 
+    public Item toItem() {
+        return Item.builder()
+                .id(this.id)
+                .nome(this.nome)
+                .banco(this.banco)
+                .parcela(this.parcela.toParcela())
+                .valorRestante(this.valorRestante)
+                .valorTotal(this.valorTotal)
+                .criadoEm(this.criadoEm)
+                .build();
+    }
 }

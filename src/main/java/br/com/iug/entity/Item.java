@@ -4,24 +4,18 @@ import br.com.iug.entity.request.ItemRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder
@@ -56,6 +50,11 @@ public class Item {
 
     public void pay() {
         this.parcela.pay();
+        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+    }
+
+    public void unpay() {
+        this.parcela.unpay();
         this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
     }
 
