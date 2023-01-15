@@ -39,4 +39,12 @@ public class ParcelaHistory {
                 .build();
     }
 
+    public Parcela toParcela() {
+        return Parcela.builder()
+                .id(this.id)
+                .valor(this.valor)
+                .qtdPaga(this.qtdPaga)
+                .qtdRestante(this.qtdRestante)
+                .build();
+    }
 }
