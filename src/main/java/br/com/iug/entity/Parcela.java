@@ -45,9 +45,9 @@ public class Parcela {
         return this.qtdRestante == 0;
     }
 
-    public void update(ParcelaRequest parcelaRequest) {
-        this.qtdPaga = parcelaRequest.getQtdPaga();
-        this.qtdRestante = parcelaRequest.getQtdRestante();
+    public void update(Parcela parcela) {
+        this.qtdPaga = parcela.getQtdPaga();
+        this.qtdRestante = parcela.getQtdRestante();
     }
 
     public ParcelaResponse toParcelaRespone() {
@@ -57,4 +57,12 @@ public class Parcela {
                 .qtdRestante(this.qtdRestante)
                 .build();
     }
+
+    public Parcela toParcela(ParcelaRequest parcelaRequest) {
+        return Parcela.builder()
+                .qtdRestante(parcelaRequest.getQtdRestante())
+                .qtdPaga(parcelaRequest.getQtdPaga())
+                .build();
+    }
+
 }

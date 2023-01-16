@@ -19,17 +19,16 @@ public class ItemRequest {
     @Positive
     private double valor;
 
-    @NotNull
     private ParcelaRequest parcela;
 
     public Item toItem() {
         return Item.builder()
                 .nome(this.nome)
                 .banco(this.banco)
-                .parcela(this.parcela.toParcela())
+                .parcela(this.parcela != null ? this.parcela.toParcela() : null)
                 .valor(this.valor)
-                .valorRestante(this.valor * this.parcela.getQtdRestante())
-                .valorTotal(this.valor * (this.parcela.getQtdPaga() + this.parcela.getQtdRestante()))
+                .valorRestante(this.parcela != null ? this.valor * this.parcela.getQtdRestante() : this.valor)
+                .valorTotal(this.parcela != null ? this.valor * (this.parcela.getQtdPaga() + this.parcela.getQtdRestante()) : this.valor)
                 .build();
     }
 

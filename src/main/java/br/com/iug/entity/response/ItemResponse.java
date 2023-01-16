@@ -31,7 +31,7 @@ public class ItemResponse {
                 .id(item.getId())
                 .nome(item.getNome())
                 .banco(item.getBanco())
-                .parcela(item.getParcela().toParcelaRespone())
+                .parcela(item.getParcela() != null ? item.getParcela().toParcelaRespone() : null)
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())

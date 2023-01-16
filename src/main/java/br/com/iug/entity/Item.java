@@ -61,12 +61,19 @@ public class Item {
         this.valorRestante = this.valor * this.parcela.getQtdRestante();
     }
 
-    public void update(ItemRequest itemRequest) {
-        this.nome = itemRequest.getNome();
-        this.banco = itemRequest.getBanco();
-        this.parcela.update(itemRequest.getParcela());
-        this.valorRestante = this.valor * this.parcela.getQtdRestante();
-        this.valorTotal = this.valorTotal * (this.parcela.getQtdRestante() + this.parcela.getQtdPaga());
+    public void update(Item item) {
+        this.nome = item.getNome();
+        this.banco = item.getBanco();
+        if (this.parcela != null) {
+            this.parcela.update(item.getParcela());
+            this.valorRestante = this.valor * this.parcela.getQtdRestante();
+            this.valorTotal = this.valor * (this.parcela.getQtdRestante() + this.parcela.getQtdPaga());
+        } else {
+            this.valor = item.getValor();
+            this.valorRestante = item.getValorRestante();
+            this.valorTotal = item.getValorRestante();
+        }
+
     }
 
 }

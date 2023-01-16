@@ -32,7 +32,6 @@ public class ItemService {
     }
 
     public double getTotalValue(String banco) throws BancoNotFoundException {
-
         try {
             if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco))) {
                 return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValorRestante).sum();
@@ -50,7 +49,7 @@ public class ItemService {
     public Item update(long id, ItemRequest itemRequest) throws ItemNotFoundException {
         var itemFound = findById(id);
 
-        itemFound.update(itemRequest);
+        itemFound.update(itemRequest.toItem());
 
         return itemRepository.save(itemFound);
     }
