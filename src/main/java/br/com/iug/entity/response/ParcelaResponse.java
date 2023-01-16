@@ -13,8 +13,6 @@ public class ParcelaResponse {
 
     private long id;
 
-    private double valor;
-
     private int qtdPaga;
 
     private int qtdRestante;

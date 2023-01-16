@@ -39,6 +39,9 @@ public class Item {
     @OneToOne(cascade = CascadeType.ALL)
     private Parcela parcela;
 
+    @Column(name = "VALOR")
+    private double valor;
+
     @Column(name = "VALOR_RESTANTE")
     private double valorRestante;
 
@@ -50,19 +53,19 @@ public class Item {
 
     public void pay() {
         this.parcela.pay();
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+        this.valorRestante = this.valor * this.parcela.getQtdRestante();
     }
 
     public void unpay() {
         this.parcela.unpay();
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+        this.valorRestante = this.valor * this.parcela.getQtdRestante();
     }
 
     public void update(ItemRequest itemRequest) {
         this.nome = itemRequest.getNome();
         this.banco = itemRequest.getBanco();
         this.parcela.update(itemRequest.getParcela());
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+        this.valorRestante = this.valor * this.parcela.getQtdRestante();
         this.valorTotal = this.valorTotal * (this.parcela.getQtdRestante() + this.parcela.getQtdPaga());
     }
 

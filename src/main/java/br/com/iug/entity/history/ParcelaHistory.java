@@ -21,9 +21,6 @@ public class ParcelaHistory {
     @Id
     private long id;
 
-    @Column(name = "VALOR")
-    private double valor;
-
     @Column(name = "QTD_PAGA")
     private int qtdPaga;
 
@@ -33,7 +30,6 @@ public class ParcelaHistory {
     public static ParcelaHistory from(Parcela parcela) {
         return ParcelaHistory.builder()
                 .id(parcela.getId())
-                .valor(parcela.getValor())
                 .qtdPaga(parcela.getQtdPaga())
                 .qtdRestante(parcela.getQtdRestante())
                 .build();
@@ -42,7 +38,6 @@ public class ParcelaHistory {
     public Parcela toParcela() {
         return Parcela.builder()
                 .id(this.id)
-                .valor(this.valor)
                 .qtdPaga(this.qtdPaga)
                 .qtdRestante(this.qtdRestante)
                 .build();
