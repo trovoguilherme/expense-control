@@ -50,8 +50,8 @@ public class ItemService {
         return itemRepository.save(itemFound);
     }
 
-    public void pay(long nome) throws ItemNotFoundException {
-        var itemFound = findById(nome);
+    public void pay(long id) throws ItemNotFoundException {
+        var itemFound = findById(id);
         payItemOrSaveInHistory(itemFound);
     }
 
