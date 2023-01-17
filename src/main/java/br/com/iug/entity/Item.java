@@ -1,6 +1,5 @@
 package br.com.iug.entity;
 
-import br.com.iug.entity.request.ItemRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
