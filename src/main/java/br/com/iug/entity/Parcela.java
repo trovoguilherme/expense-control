@@ -25,9 +25,6 @@ public class Parcela {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "VALOR")
-    private double valor;
-
     @Column(name = "QTD_PAGA")
     private int qtdPaga;
 
@@ -44,22 +41,24 @@ public class Parcela {
         this.qtdRestante++;
     }
 
-    public boolean isPay() {
-        return this.qtdRestante == 0;
-    }
-
-    public void update(ParcelaRequest parcelaRequest) {
-        this.valor = parcelaRequest.getValor();
-        this.qtdPaga = parcelaRequest.getQtdPaga();
-        this.qtdRestante = parcelaRequest.getQtdRestante();
+    public void update(Parcela parcela) {
+        this.qtdPaga = parcela.getQtdPaga();
+        this.qtdRestante = parcela.getQtdRestante();
     }
 
     public ParcelaResponse toParcelaRespone() {
         return ParcelaResponse.builder()
                 .id(this.id)
-                .valor(this.valor)
                 .qtdPaga(this.qtdPaga)
                 .qtdRestante(this.qtdRestante)
                 .build();
     }
+
+    public Parcela toParcela(ParcelaRequest parcelaRequest) {
+        return Parcela.builder()
+                .qtdRestante(parcelaRequest.getQtdRestante())
+                .qtdPaga(parcelaRequest.getQtdPaga())
+                .build();
+    }
+
 }

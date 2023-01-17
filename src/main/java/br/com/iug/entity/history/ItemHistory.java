@@ -35,6 +35,9 @@ public class ItemHistory {
     @OneToOne(cascade = CascadeType.ALL)
     private ParcelaHistory parcela;
 
+    @Column(name = "VALOR")
+    private double valor;
+
     @Column(name = "VALOR_RESTANTE")
     private double valorRestante;
 
@@ -49,7 +52,8 @@ public class ItemHistory {
                 .id(item.getId())
                 .nome(item.getNome())
                 .banco(item.getBanco())
-                .parcela(ParcelaHistory.from(item.getParcela()))
+                .parcela(item.getParcela() != null ? ParcelaHistory.from(item.getParcela()) : null)
+                .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())
                 .build();
@@ -61,6 +65,7 @@ public class ItemHistory {
                 .nome(this.nome)
                 .banco(this.banco)
                 .parcela(this.parcela.toParcela())
+                .valor(this.valor)
                 .valorRestante(this.valorRestante)
                 .valorTotal(this.valorTotal)
                 .criadoEm(this.criadoEm)
