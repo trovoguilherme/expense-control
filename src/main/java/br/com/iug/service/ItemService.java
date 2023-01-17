@@ -23,10 +23,6 @@ public class ItemService {
         return itemRepository.findAllWithParams(nome, banco);
     }
 
-    public Item findByNome(String nome) throws ItemNotFoundException {
-        return itemRepository.findByNome(nome).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
-    }
-
     public Item findById(long id) throws ItemNotFoundException {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
@@ -54,8 +50,8 @@ public class ItemService {
         return itemRepository.save(itemFound);
     }
 
-    public void pay(String nome) throws ItemNotFoundException {
-        var itemFound = findByNome(nome);
+    public void pay(long id) throws ItemNotFoundException {
+        var itemFound = findById(id);
         payItemOrSaveInHistory(itemFound);
     }
 
