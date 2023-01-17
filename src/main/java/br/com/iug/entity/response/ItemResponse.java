@@ -1,6 +1,5 @@
 package br.com.iug.entity.response;
 
-import br.com.iug.entity.Banco;
 import br.com.iug.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +20,8 @@ public class ItemResponse {
 
     private ParcelaResponse parcela;
 
+    private double valor;
+
     private double valorRestante;
 
     private double valorTotal;
@@ -30,7 +31,8 @@ public class ItemResponse {
                 .id(item.getId())
                 .nome(item.getNome())
                 .banco(item.getBanco())
-                .parcela(item.getParcela().toParcelaRespone())
+                .parcela(item.getParcela() != null ? item.getParcela().toParcelaRespone() : null)
+                .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())
                 .build();

@@ -32,7 +32,6 @@ public class ItemService {
     }
 
     public double getTotalValue(String banco) throws BancoNotFoundException {
-
         try {
             if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco))) {
                 return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValorRestante).sum();
@@ -50,7 +49,7 @@ public class ItemService {
     public Item update(long id, ItemRequest itemRequest) throws ItemNotFoundException {
         var itemFound = findById(id);
 
-        itemFound.update(itemRequest);
+        itemFound.update(itemRequest.toItem());
 
         return itemRepository.save(itemFound);
     }
@@ -78,12 +77,18 @@ public class ItemService {
     private void payItemOrSaveInHistory(Item item) {
         item.pay();
 
-        if (item.getParcela().isPay()) {
+        if (item.getParcela() != null) {
+            if (item.isPay()) {
+                itemHistoryService.save(item);
+                itemRepository.deleteById(item.getId());
+            } else {
+                itemRepository.save(item);
+            }
+        } else {
             itemHistoryService.save(item);
             itemRepository.deleteById(item.getId());
-        } else {
-            itemRepository.save(item);
         }
+
     }
 
 }

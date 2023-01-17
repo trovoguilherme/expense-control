@@ -39,6 +39,9 @@ public class Item {
     @OneToOne(cascade = CascadeType.ALL)
     private Parcela parcela;
 
+    @Column(name = "VALOR")
+    private double valor;
+
     @Column(name = "VALOR_RESTANTE")
     private double valorRestante;
 
@@ -48,22 +51,37 @@ public class Item {
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
+    public boolean isPay() {
+        return this.valorRestante == 0;
+    }
+
     public void pay() {
-        this.parcela.pay();
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+        if (this.parcela != null) {
+            this.parcela.pay();
+            this.valorRestante = this.valor * this.parcela.getQtdRestante();
+        } else {
+            this.valorRestante = 0;
+        }
     }
 
     public void unpay() {
         this.parcela.unpay();
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
+        this.valorRestante = this.valor * this.parcela.getQtdRestante();
     }
 
-    public void update(ItemRequest itemRequest) {
-        this.nome = itemRequest.getNome();
-        this.banco = itemRequest.getBanco();
-        this.parcela.update(itemRequest.getParcela());
-        this.valorRestante = this.parcela.getValor() * this.parcela.getQtdRestante();
-        this.valorTotal = this.valorTotal * (this.parcela.getQtdRestante() + this.parcela.getQtdPaga());
+    public void update(Item item) {
+        this.nome = item.getNome();
+        this.banco = item.getBanco();
+        if (this.parcela != null) {
+            this.parcela.update(item.getParcela());
+            this.valorRestante = this.valor * this.parcela.getQtdRestante();
+            this.valorTotal = this.valor * (this.parcela.getQtdRestante() + this.parcela.getQtdPaga());
+        } else {
+            this.valor = item.getValor();
+            this.valorRestante = item.getValorRestante();
+            this.valorTotal = item.getValorRestante();
+        }
+
     }
 
 }
