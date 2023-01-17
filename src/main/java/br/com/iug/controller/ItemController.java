@@ -7,6 +7,7 @@ import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.service.ItemHistoryService;
 import br.com.iug.service.ItemService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,22 +36,26 @@ public class ItemController {
 
     private final ItemHistoryService itemHistoryService;
 
+    @Operation(summary = "Retorna todos os itens")
     @GetMapping
     public ResponseEntity<List<ItemResponse>> findAllWithParams(@RequestParam(value = "nome", required = false) String nome,
                                                       @RequestParam(value = "banco", required = false) String banco) {
         return ResponseEntity.ok(itemService.findAllWithParams(nome, banco).stream().map(ItemResponse::from).collect(Collectors.toList()));
     }
 
+    @Operation(summary = "Retorna o item pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponse> findById(@PathVariable("id") long id) throws ItemNotFoundException {
         return ResponseEntity.ok(ItemResponse.from(itemService.findById(id)));
     }
 
+    @Operation(summary = "Retorna os gatos totais")
     @GetMapping("/gastos")
     public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco) throws BancoNotFoundException {
         return ResponseEntity.ok(itemService.getTotalValue(banco));
     }
 
+    @Operation(summary = "Cria um item")
     @PostMapping
     public ResponseEntity<Void> create(@Valid @RequestBody ItemRequest itemRequest) {
         var itemCreated = itemService.save(itemRequest.toItem());
@@ -61,35 +66,41 @@ public class ItemController {
         return ResponseEntity.created(location).build();
     }
 
+    @Operation(summary = "Atualiza um item")
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ItemRequest itemRequest) throws ItemNotFoundException {
         itemService.update(id, itemRequest);
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Paga os itens pelo banco")
     @PatchMapping("/pay")
     public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") String banco) throws ItemNotFoundException {
         itemService.payByBanco(banco);
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Paga um item pelo nome")
     @PatchMapping("/{name}/pay")
     public ResponseEntity<Void> payItem(@PathVariable("name") String nome) throws ItemNotFoundException {
         itemService.pay(nome);
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Deleta um item pelo id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") long id) throws ItemNotFoundException {
         itemService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Retorna o histórico dos itens já pagos")
     @GetMapping("/history")
     public ResponseEntity<List<ItemHistory>> findAllHistory(@RequestParam(value = "banco", required = false) String banco) {
         return ResponseEntity.ok(itemHistoryService.findAll(banco));
     }
 
+    @Operation(summary = "Retorna o histórico do item que já foi pago pelo nome")
     @GetMapping("/{name}/history")
     public ResponseEntity<ItemHistory> findHistoryByName(@PathVariable(value = "name") String nome) throws ItemNotFoundException {
         return ResponseEntity.ok(itemHistoryService.findByName(nome));
