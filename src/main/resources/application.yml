@@ -16,3 +16,8 @@ spring:
           import_files: sql/populate-database.sql
     hibernate:
       ddl-auto: create
+
+# Default path: /swagger-ui/index.html
+springdoc:
+  swagger-ui.path: /swagger
+  show-actuator: true

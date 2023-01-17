@@ -1,4 +1,4 @@
-package br.com.iug.entity;
+package br.com.iug.entity.enums;
 
 import lombok.RequiredArgsConstructor;
 

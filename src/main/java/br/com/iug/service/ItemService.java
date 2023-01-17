@@ -1,6 +1,6 @@
 package br.com.iug.service;
 
-import br.com.iug.entity.Banco;
+import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.Item;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.exception.BancoNotFoundException;
