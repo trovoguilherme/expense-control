@@ -41,10 +41,6 @@ public class Parcela {
         this.qtdRestante++;
     }
 
-    public boolean isPay() {
-        return this.qtdRestante == 0;
-    }
-
     public void update(Parcela parcela) {
         this.qtdPaga = parcela.getQtdPaga();
         this.qtdRestante = parcela.getQtdRestante();

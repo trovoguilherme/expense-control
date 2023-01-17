@@ -52,7 +52,7 @@ public class ItemHistory {
                 .id(item.getId())
                 .nome(item.getNome())
                 .banco(item.getBanco())
-                .parcela(ParcelaHistory.from(item.getParcela()))
+                .parcela(item.getParcela() != null ? ParcelaHistory.from(item.getParcela()) : null)
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())

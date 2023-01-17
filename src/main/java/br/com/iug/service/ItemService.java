@@ -77,12 +77,18 @@ public class ItemService {
     private void payItemOrSaveInHistory(Item item) {
         item.pay();
 
-        if (item.getParcela().isPay()) {
+        if (item.getParcela() != null) {
+            if (item.isPay()) {
+                itemHistoryService.save(item);
+                itemRepository.deleteById(item.getId());
+            } else {
+                itemRepository.save(item);
+            }
+        } else {
             itemHistoryService.save(item);
             itemRepository.deleteById(item.getId());
-        } else {
-            itemRepository.save(item);
         }
+
     }
 
 }

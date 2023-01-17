@@ -51,9 +51,17 @@ public class Item {
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
+    public boolean isPay() {
+        return this.valorRestante == 0;
+    }
+
     public void pay() {
-        this.parcela.pay();
-        this.valorRestante = this.valor * this.parcela.getQtdRestante();
+        if (this.parcela != null) {
+            this.parcela.pay();
+            this.valorRestante = this.valor * this.parcela.getQtdRestante();
+        } else {
+            this.valorRestante = 0;
+        }
     }
 
     public void unpay() {
