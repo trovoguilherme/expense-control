@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'expense'
+      MYSQL_USER: 'gui'
+      MYSQL_PASSWORD: 'senha123'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - './volume/mysql:/var/lib/mysql'
