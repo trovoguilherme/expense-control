@@ -1,0 +1,1330 @@
+{
+	"info": {
+		"_postman_id": "c30b06d6-20d4-4430-aa40-76fbfa495c89",
+		"name": "Expense Control API",
+		"description": "API desenvolvida para controle de gastos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17929758"
+	},
+	"item": [
+		{
+			"name": "item",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Retorna o item pelo id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-54384340",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 56241856,\n  \"nome\": \"non labore\",\n  \"banco\": \"laborum elit proident aliquip\",\n  \"parcela\": {\n    \"id\": -88543782,\n    \"qtdPaga\": -68960850,\n    \"qtdRestante\": 87840005\n  },\n  \"valor\": -32362311.43929574,\n  \"valorRestante\": -22194644.936594307,\n  \"valorTotal\": -29267311.142532423\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Atualiza um item",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-54384340",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Deleta um item pelo id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-54384340",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Paga um item pelo nome",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/item/:id/pay",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":id",
+										"pay"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-54384340",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id/pay",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id",
+												"pay"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/item/:id/pay",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"item",
+												":id",
+												"pay"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-54384340",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Retorna todos os itens",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item?nome=sint dolore mollit&banco=sint dolore mollit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "sint dolore mollit"
+								},
+								{
+									"key": "banco",
+									"value": "sint dolore mollit"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item?nome=sint dolore mollit&banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item"
+									],
+									"query": [
+										{
+											"key": "nome",
+											"value": "sint dolore mollit"
+										},
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 24116653,\n    \"nome\": \"incididunt \",\n    \"banco\": \"do\",\n    \"parcela\": {\n      \"id\": -67592714,\n      \"qtdPaga\": -5963407,\n      \"qtdRestante\": -55490941\n    },\n    \"valor\": 67255435.17100924,\n    \"valorRestante\": 43709032.66048631,\n    \"valorTotal\": 77419499.63324708\n  },\n  {\n    \"id\": 27287293,\n    \"nome\": \"fugi\",\n    \"banco\": \"sed Excepteur dolore pariatur\",\n    \"parcela\": {\n      \"id\": 64873411,\n      \"qtdPaga\": -84498160,\n      \"qtdRestante\": 37840913\n    },\n    \"valor\": 60925004.63118422,\n    \"valorRestante\": 17680948.758877516,\n    \"valorTotal\": 49689023.345850855\n  }\n]"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item?nome=sint dolore mollit&banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item"
+									],
+									"query": [
+										{
+											"key": "nome",
+											"value": "sint dolore mollit"
+										},
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Cria um item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/item",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/item",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"dolore ullam\",\n  \"banco\": \"v\",\n  \"valor\": -67332136.02107649,\n  \"parcela\": {\n    \"qtdPaga\": 37915301,\n    \"qtdRestante\": -57324519\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/item",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Paga os itens pelo banco",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/pay?banco=sint dolore mollit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								"pay"
+							],
+							"query": [
+								{
+									"key": "banco",
+									"value": "sint dolore mollit",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/pay?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"pay"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/pay?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"pay"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Retorna o histórico do item que já foi pago pelo nome",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/:name/history",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								":name",
+								"history"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "sint dolore mollit",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/:name/history",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":name",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "sint dolore mollit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 39133660,\n  \"nome\": \"laboris incididunt cillum\",\n  \"banco\": \"Duis sint\",\n  \"parcela\": {\n    \"id\": -97429955,\n    \"qtdPaga\": -3729746,\n    \"qtdRestante\": 52726391\n  },\n  \"valor\": 33643329.4223879,\n  \"valorRestante\": -58188047.46245312,\n  \"valorTotal\": -32427090.453147396,\n  \"criadoEm\": \"1967-11-20T05:56:18.120Z\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/:name/history",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										":name",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "sint dolore mollit",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Retorna o histórico dos itens já pagos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/history?banco=sint dolore mollit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								"history"
+							],
+							"query": [
+								{
+									"key": "banco",
+									"value": "sint dolore mollit"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/history?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"history"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 99589227,\n    \"nome\": \"Ut nulla nostrud consectetur\",\n    \"banco\": \"aliquip elit\",\n    \"parcela\": {\n      \"id\": -27174340,\n      \"qtdPaga\": 6697428,\n      \"qtdRestante\": 85399362\n    },\n    \"valor\": -49419320.65766772,\n    \"valorRestante\": 94629888.87684873,\n    \"valorTotal\": 933685.6574810445,\n    \"criadoEm\": \"1976-07-19T23:13:46.396Z\"\n  },\n  {\n    \"id\": -35598580,\n    \"nome\": \"deserunt id ipsum\",\n    \"banco\": \"esse anim deserunt a\",\n    \"parcela\": {\n      \"id\": 38738429,\n      \"qtdPaga\": -8231757,\n      \"qtdRestante\": 54882098\n    },\n    \"valor\": -16063470.306424543,\n    \"valorRestante\": 49626290.44112229,\n    \"valorTotal\": 85049576.63676792,\n    \"criadoEm\": \"1996-05-15T21:06:33.468Z\"\n  }\n]"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/history?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"history"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Retorna os gatos totais",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/item/gastos?banco=sint dolore mollit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"item",
+								"gastos"
+							],
+							"query": [
+								{
+									"key": "banco",
+									"value": "sint dolore mollit"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/gastos?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"gastos"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "19763328.399229914"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/item/gastos?banco=sint dolore mollit",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"item",
+										"gastos"
+									],
+									"query": [
+										{
+											"key": "banco",
+											"value": "sint dolore mollit"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "actuator",
+			"item": [
+				{
+					"name": "health",
+					"item": [
+						{
+							"name": "Actuator web endpoint 'health'",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.spring-boot.actuator.v3+json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/actuator/health",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/actuator/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"actuator",
+												"health"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.spring-boot.actuator.v3+json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/actuator/health",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"actuator",
+												"health"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Actuator web endpoint 'health-path'",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/vnd.spring-boot.actuator.v3+json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/actuator/health/**",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"actuator",
+										"health",
+										"**"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/actuator/health/**",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"actuator",
+												"health",
+												"**"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.spring-boot.actuator.v3+json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/actuator/health/**",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"actuator",
+												"health",
+												"**"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Actuator root web endpoint",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/vnd.spring-boot.actuator.v3+json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/actuator",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actuator"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/actuator",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"actuator"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.spring-boot.actuator.v3+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"officia_be8\": {\n    \"aute_0\": {\n      \"href\": \"deserunt occaecat\",\n      \"templated\": false\n    },\n    \"utd7\": {\n      \"href\": \"eiusmod reprehenderit Duis velit\",\n      \"templated\": false\n    }\n  }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/actuator",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"actuator"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"method\": \"dolor Ut est\",\n  \"path\": \"in ex\",\n  \"errorMessage\": \"aute Ut dolor \",\n  \"errorDetail\": {}\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
