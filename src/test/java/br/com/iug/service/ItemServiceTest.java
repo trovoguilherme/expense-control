@@ -47,7 +47,7 @@ public class ItemServiceTest {
 
         itemService.pay(item.getId());
 
-        assertEquals(item.getValorRestante(), 100);
+        assertEquals(100, item.getValorRestante());
     }
     @Test
     @DisplayName("Deve pagar um item sem parcela")
@@ -59,7 +59,7 @@ public class ItemServiceTest {
 
         itemService.pay(item.getId());
 
-        assertEquals(item.getValorRestante(), 0);
+        assertEquals(0, item.getValorRestante());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ItemServiceTest {
 
         itemService.payByBanco("NUBANK");
 
-        assertEquals(itens.get(0).getValorRestante(), 0);
+        assertEquals(0, itens.get(0).getValorRestante());
     }
 
     @Test
