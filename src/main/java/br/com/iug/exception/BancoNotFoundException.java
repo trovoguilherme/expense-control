@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BancoNotFoundException extends Exception {
 
-    private String message;
+    private final String message;
 
 }
