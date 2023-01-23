@@ -15,7 +15,7 @@ services:
     expose:
       - '3306'
     volumes:
-      - './volume/mysql:/var/lib/mysql'
+      - mysql_data:/var/lib/mysql
 
   sonarqube:
     image: sonarqube:8.9.9-community
@@ -56,3 +56,4 @@ volumes:
   sonarqube_bundled-pluginss:
   postgresqll:
   postgresql_dataa:
+  mysql_data:

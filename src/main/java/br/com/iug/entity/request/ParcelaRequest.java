@@ -7,15 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import static br.com.iug.entity.utility.JavaCodes.ERROR_PARCELA_QTD_PAGA_MENOR_QUE_ZERO;
+import static br.com.iug.entity.utility.JavaCodes.ERROR_PARCELA_QTD_RESTANTE_MENOR_QUE_ZERO;
+
 @Builder
 @Getter
 @AllArgsConstructor
 public class ParcelaRequest {
 
-    @PositiveOrZero
+    @PositiveOrZero(message = "{"+ ERROR_PARCELA_QTD_PAGA_MENOR_QUE_ZERO +"}")
     private int qtdPaga;
 
-    @Positive
+    @Positive(message = "{"+ ERROR_PARCELA_QTD_RESTANTE_MENOR_QUE_ZERO +"}")
     private int qtdRestante;
 
     public Parcela toParcela() {
