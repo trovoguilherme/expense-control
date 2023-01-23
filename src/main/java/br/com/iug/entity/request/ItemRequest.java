@@ -1,23 +1,28 @@
 package br.com.iug.entity.request;
 
 import br.com.iug.entity.Item;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static br.com.iug.entity.utility.JavaCodes.ERROR_ITEM_MENOR_QUE_ZERO;
+import static br.com.iug.entity.utility.JavaCodes.ERROR_ITEM_NOME_VAZIO;
+
 @Getter
 @AllArgsConstructor
 public class ItemRequest {
 
-    @NotBlank
+    @NotBlank(message = "{"+ ERROR_ITEM_NOME_VAZIO +"}")
     private String nome;
 
     private String banco;
 
-    @Positive
+    @Positive(message = "{" + ERROR_ITEM_MENOR_QUE_ZERO + "}")
     private double valor;
 
+    @Valid
     private ParcelaRequest parcela;
 
     public Item toItem() {
