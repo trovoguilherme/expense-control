@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.9'
 
 services:
   database:
@@ -45,6 +45,17 @@ services:
     volumes:
       - postgresqll:/var/lib/postgresql
       - postgresql_dataa:/var/lib/postgresql/data
+
+  expense-control:
+    container_name: expense-control
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    image: expense-control:latest
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: homolog
 
 networks:
   sonarnet:
