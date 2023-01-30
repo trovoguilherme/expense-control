@@ -57,6 +57,19 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: homolog
 
+  postgres:
+    container_name: expense_constrol_postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/postgres
+    volumes:
+      - expense-control-postgres-db-data:/data/postgres
+    ports:
+      - "5432:5432"
+
 networks:
   sonarnet:
 
@@ -68,3 +81,5 @@ volumes:
   postgresqll:
   postgresql_dataa:
   mysql_data:
+  expense-control-postgres-db-data:
+    driver: local
