@@ -14,6 +14,8 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+  config:
+    import: classpath:application-dev.yml
 
 # Default path: /swagger-ui/index.html
 springdoc:
