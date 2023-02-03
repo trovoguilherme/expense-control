@@ -30,12 +30,12 @@ public class ItemService {
     public double getTotalValue(String banco) throws BancoNotFoundException {
         try {
             if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco))) {
-                return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValorRestante).sum();
+                return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValor).sum();
             }
         } catch (IllegalArgumentException e) {
             throw new BancoNotFoundException("Banco '"+banco+"' não encontrado");
         }
-        return itemRepository.findAll().stream().mapToDouble(Item::getValorRestante).sum();
+        return itemRepository.findAll().stream().mapToDouble(Item::getValor).sum();
     }
 
     public Item save(Item itemRequest) {
