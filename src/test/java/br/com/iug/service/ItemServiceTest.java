@@ -9,6 +9,8 @@ import br.com.iug.repository.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +41,9 @@ public class ItemServiceTest {
 
     @Mock
     private ItemHistoryService itemHistoryService;
+
+    @Captor
+    private ArgumentCaptor<Item> captor;
 
     @Test
     @DisplayName("Deve pagar um item com parcela")
@@ -100,6 +106,44 @@ public class ItemServiceTest {
         itemService.save(itemRequest.toItem());
 
         verify(itemRepository, times(1)).save(any(Item.class));
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um item que tem parcela")
+    void shouldUpdateItemWithParcela() throws ItemNotFoundException {
+        var item = generateItens().get(0);
+        var itemRequest = new ItemRequest("item novo", "ITAU", 3000, new ParcelaRequest(9, 3));
+
+        when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
+
+        itemService.update(item.getId(), itemRequest);
+
+        verify(itemRepository).save(captor.capture());
+
+        var itemAtual = captor.getValue();
+
+        assertThat(itemAtual.getNome()).isEqualTo("item novo");
+        assertThat(itemAtual.getValorRestante()).isEqualTo(9000);
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um item sem parcela")
+    void shouldUpdateItemWithoutParcela() throws ItemNotFoundException {
+        var item = generateItens().get(1);
+        var itemRequest = new ItemRequest("item novo", "ITAU", 3000, null);
+
+        when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
+
+        itemService.update(item.getId(), itemRequest);
+
+        verify(itemRepository).save(captor.capture());
+        var itemAtual = captor.getValue();
+
+        assertThat(itemAtual.getNome()).isEqualTo("item novo");
+        assertThat(itemAtual.getValorRestante()).isEqualTo(3000);
+        assertThat(itemAtual.getValorTotal()).isEqualTo(3000);
+        assertThat(itemAtual.getValor()).isEqualTo(3000);
+        assertThat(itemAtual.getParcela()).isNull();
     }
 
     private List<Item> generateItens() {
