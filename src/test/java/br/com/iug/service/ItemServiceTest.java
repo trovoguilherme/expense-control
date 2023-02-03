@@ -4,6 +4,7 @@ import br.com.iug.entity.Item;
 import br.com.iug.entity.Parcela;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
+import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,7 +121,6 @@ public class ItemServiceTest {
         itemService.update(item.getId(), itemRequest);
 
         verify(itemRepository).save(captor.capture());
-
         var itemAtual = captor.getValue();
 
         assertThat(itemAtual.getNome()).isEqualTo("item novo");
@@ -144,6 +145,35 @@ public class ItemServiceTest {
         assertThat(itemAtual.getValorTotal()).isEqualTo(3000);
         assertThat(itemAtual.getValor()).isEqualTo(3000);
         assertThat(itemAtual.getParcela()).isNull();
+    }
+
+    @Test
+    @DisplayName("Deve pegar o valor restante total de todos os itens")
+    void shouldGetValorRestanteTotal() throws BancoNotFoundException {
+        when(itemRepository.findAll()).thenReturn(generateItens());
+
+        var valorRestanteTotal = itemService.getTotalValue(null);
+
+        assertThat(valorRestanteTotal).isEqualTo(450);
+    }
+
+    @Test
+    @DisplayName("Deve pegar o valor restante total de todos os itens pelo banco")
+    void shouldGetValorRestanteTotalByBanco() throws BancoNotFoundException {
+        List<Item> mutableItens = new ArrayList<>(generateItens());
+        mutableItens.remove(3);
+
+        when(itemRepository.findAllByBanco(anyString())).thenReturn(mutableItens);
+
+        var valorRestanteTotal = itemService.getTotalValue("NUBANK");
+
+        assertThat(valorRestanteTotal).isEqualTo(350);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao pegar o valor restante total de todos os itens pelo que não existe banco")
+    void shouldThrowsGetValorRestanteTotalWhenBancoNotExists() throws BancoNotFoundException {
+        assertThrows(BancoNotFoundException.class, () -> itemService.getTotalValue("NUBANQUE"));
     }
 
     private List<Item> generateItens() {
