@@ -20,3 +20,9 @@ e rodar passando as informações necessárias para as analises. Ex:
 ```
 ./gradlew sonar -D sonar.projectKey=expense-control -D sonar.host.url=http://localhost:9000 -D sonar.login=069b5982cc6843f8d914db5439bb1bfba8ee56fd
 ```
+### Problemas para subir o SonarQube
+Caso não esteja subindo o sonar por conta da memória virtual, se estiver no Windows basta abrir o PowerShell e rodar os seguintes comandos
+```
+wsl -d docker-desktop
+sysctl -w vm.max_map_count=262144
+```

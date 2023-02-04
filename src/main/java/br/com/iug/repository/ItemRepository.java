@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
@@ -15,4 +16,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findAllByBanco(String banco);
 
+    Optional<Item> findByNome(String nome);
+
+    List<Item> findAllByIdIn(List<Long> ids);
 }
