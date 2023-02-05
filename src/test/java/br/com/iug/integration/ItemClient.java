@@ -45,6 +45,15 @@ public class ItemClient {
                 .post(ENDPOINT);
     }
 
+    public Response update(long id, ItemRequest request) {
+        return given()
+                .spec(specBuilder.build())
+                .pathParam("id", id)
+                .body(request)
+                .when()
+                .put(ENDPOINT + "/{id}");
+    }
+
     public Response payItemById(long id) {
         return given()
                 .spec(specBuilder.build())
@@ -53,7 +62,7 @@ public class ItemClient {
                 .patch(ENDPOINT + "/{id}/pay");
     }
 
-    public Response payItemBanco(String banco) {
+    public Response payItemByBanco(String banco) {
         return given()
                 .spec(specBuilder.build())
                 .queryParam("banco", banco)
