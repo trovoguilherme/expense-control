@@ -1,6 +1,7 @@
 package br.com.iug.entity.response;
 
 import br.com.iug.entity.Item;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonPropertyOrder({"id", "nome", "banco", "valor", "parcela", "valorRestante", "valorTotal"})
 public class ItemResponse {
 
     private long id;
