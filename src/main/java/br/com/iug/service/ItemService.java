@@ -1,7 +1,7 @@
 package br.com.iug.service;
 
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.Item;
+import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
@@ -9,6 +9,7 @@ import br.com.iug.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,10 +28,22 @@ public class ItemService {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
 
-    public double getTotalValue(String banco) throws BancoNotFoundException {
+    public double getTotalValue(String banco, List<Long> idItens) throws BancoNotFoundException {
         try {
-            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco))) {
+            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco)) && idItens != null) {
+                List<Item> itens = new ArrayList<>();
+                itens.addAll(itemRepository.findAllByBanco(banco));
+                itens.addAll(itemRepository.findAllByIdIn(idItens));
+
+                return itens.stream().distinct().mapToDouble(Item::getValor).sum();
+            }
+
+            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco)) && idItens == null) {
                 return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValor).sum();
+            }
+
+            if (banco == null && idItens != null) {
+                return itemRepository.findAllByIdIn(idItens).stream().mapToDouble(Item::getValor).sum();
             }
         } catch (IllegalArgumentException e) {
             throw new BancoNotFoundException("Banco '"+banco+"' não encontrado");
