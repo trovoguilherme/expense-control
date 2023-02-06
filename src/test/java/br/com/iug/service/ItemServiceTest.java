@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,7 +153,7 @@ public class ItemServiceTest {
     void shouldGetValorRestanteTotal() throws BancoNotFoundException {
         when(itemRepository.findAll()).thenReturn(generateItens());
 
-        var valorRestanteTotal = itemService.getTotalValue(null);
+        var valorRestanteTotal = itemService.getTotalValue(null, null);
 
         assertThat(valorRestanteTotal).isEqualTo(450);
     }
@@ -165,7 +166,7 @@ public class ItemServiceTest {
 
         when(itemRepository.findAllByBanco(anyString())).thenReturn(mutableItens);
 
-        var valorRestanteTotal = itemService.getTotalValue("NUBANK");
+        var valorRestanteTotal = itemService.getTotalValue("NUBANK", null);
 
         assertThat(valorRestanteTotal).isEqualTo(350);
     }
@@ -173,7 +174,7 @@ public class ItemServiceTest {
     @Test
     @DisplayName("Deve lançar exceção ao pegar o valor restante total de todos os itens pelo que não existe banco")
     void shouldThrowsGetValorRestanteTotalWhenBancoNotExists() throws BancoNotFoundException {
-        assertThrows(BancoNotFoundException.class, () -> itemService.getTotalValue("NUBANQUE"));
+        assertThrows(BancoNotFoundException.class, () -> itemService.getTotalValue("NUBANQUE", null));
     }
 
     private List<Item> generateItens() {

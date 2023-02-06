@@ -3,6 +3,7 @@ package br.com.iug.integration;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.entity.response.ItemResponse;
+import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.integration.helper.db.ItemDBHelper;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,9 +48,9 @@ public class ItemTest {
     }
 
     @Test
-    @DisplayName("Deve criar um item")
-    void shouldCreteItem() {
-        var itemRequest = new ItemRequest("pc", "NUBANK", 800, new ParcelaRequest(2, 10));
+    @DisplayName("Deve criar um item com parcela")
+    void shouldCreteItemWithParcela() {
+        var itemRequest = new ItemRequest("com-parcela", "NUBANK", 800, new ParcelaRequest(2, 10));
 
         Response response = client.create(itemRequest);
 
@@ -57,7 +58,65 @@ public class ItemTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(itemFound.getNome()).isEqualTo(itemRequest.getNome());
+        assertThat(itemFound.getParcela()).isNotNull();
     }
+
+    @Test
+    @DisplayName("Deve criar um item sem parcela")
+    void shouldCreteItemWithoutParcela() {
+        var itemRequest = new ItemRequest("sem-parcela", "NUBANK", 800, null);
+
+        Response response = client.create(itemRequest);
+
+        var itemFound = itemDBHelper.findByNameOrCreate(itemRequest.getNome());
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(itemFound.getNome()).isEqualTo(itemRequest.getNome());
+        assertThat(itemFound.getParcela()).isNull();
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um item com parcela")
+    void shouldUpdateItemWithParcela() throws ItemNotFoundException {
+        var itemCreated = itemDBHelper.findByNameOrCreate("caderno");
+        var itemRequest = new ItemRequest("atualizar-com-parcela", "NUBANK", 800, new ParcelaRequest(2, 10));
+
+        Response response = client.update(itemCreated.getId(), itemRequest);
+
+        var itemFound = itemDBHelper.findById(itemCreated.getId());
+
+        assertThat(itemFound.getId()).isEqualTo(itemCreated.getId());
+        assertThat(itemFound.getNome()).isEqualTo(itemRequest.getNome());
+        assertThat(itemFound.getValorRestante()).isEqualTo(itemRequest.getValor() * itemRequest.getParcela().getQtdRestante());
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um item sem parcela")
+    void shouldUpdateItemWithoutParcela() throws ItemNotFoundException {
+        var itemCreated = itemDBHelper.findByNameOrCreateWithoutParcela("sem");
+        var itemRequest = new ItemRequest("atualizado-sem-parcela", "NUBANK", 800, null);
+
+        Response response = client.update(itemCreated.getId(), itemRequest);
+
+        var itemFound = itemDBHelper.findById(itemCreated.getId());
+
+        assertThat(itemFound.getId()).isEqualTo(itemCreated.getId());
+        assertThat(itemFound.getNome()).isEqualTo(itemRequest.getNome());
+        assertThat(itemFound.getValorRestante()).isEqualTo(itemRequest.getValor());
+        assertThat(itemFound.getParcela()).isNull();
+    }
+
+    @Test
+    @DisplayName("Deve dar erro ao tentar atualizar um item que tem parcela com um sem parcela")
+    void shouldReturnInternalServerError()  {
+        var itemCreated = itemDBHelper.findByNameOrCreate("com-parcela");
+        var itemRequest = new ItemRequest("pc", "NUBANK", 800, null);
+
+        Response response = client.update(itemCreated.getId(), itemRequest);
+
+        response.then().log().all();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+     }
 
     @Test
     @DisplayName("Deve pagar um item pelo nome")
@@ -69,7 +128,7 @@ public class ItemTest {
         var itemFound = itemDBHelper.findByNameOrCreate(itemCreated.getNome());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(itemFound.getParcela().getQtdPaga()).isEqualTo(itemCreated.getParcela().getQtdRestante()+1);
+        assertThat(itemFound.getParcela().getQtdPaga()).isEqualTo(itemCreated.getParcela().getQtdPaga()+1);
     }
 
 }

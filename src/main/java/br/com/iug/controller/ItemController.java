@@ -51,8 +51,9 @@ public class ItemController {
 
     @Operation(summary = "Retorna os gatos totais")
     @GetMapping("/gastos")
-    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco) throws BancoNotFoundException {
-        return ResponseEntity.ok(itemService.getTotalValue(banco));
+    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco,
+                                                @RequestParam(value = "idsItem", required = false) List<Long> idsItem) throws BancoNotFoundException {
+        return ResponseEntity.ok(itemService.getTotalValue(banco, idsItem));
     }
 
     @Operation(summary = "Cria um item")
