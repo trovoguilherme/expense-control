@@ -2,6 +2,7 @@ package br.com.iug.service;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.Parcela;
+import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.BancoNotFoundException;
@@ -18,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -166,15 +167,22 @@ public class ItemServiceTest {
 
         when(itemRepository.findAllByBanco(anyString())).thenReturn(mutableItens);
 
-        var valorRestanteTotal = itemService.getTotalValue("NUBANK", null);
+        var valorRestanteTotal = itemService.getTotalValue(Banco.NUBANK, null);
 
         assertThat(valorRestanteTotal).isEqualTo(350);
     }
 
     @Test
-    @DisplayName("Deve lançar exceção ao pegar o valor restante total de todos os itens pelo que não existe banco")
-    void shouldThrowsGetValorRestanteTotalWhenBancoNotExists() throws BancoNotFoundException {
-        assertThrows(BancoNotFoundException.class, () -> itemService.getTotalValue("NUBANQUE", null));
+    @DisplayName("Deve retornar o valor dos itens somados pelos ids informado")
+    void shouldGetItemValorSumByIds() {
+        List<Item> mutableItens = new ArrayList<>(generateItens());
+        mutableItens.remove(1);
+
+        when(itemRepository.findAllByIdIn(anyList())).thenReturn(mutableItens);
+
+        var actualValor = itemService.getTotalValue(null, List.of(1L, 3L, 4L));
+
+        assertThat(actualValor).isEqualTo(300);
     }
 
     private List<Item> generateItens() {

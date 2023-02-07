@@ -4,6 +4,7 @@ import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.entity.response.ItemResponse;
 import br.com.iug.exception.ItemNotFoundException;
+import br.com.iug.integration.client.ItemClient;
 import br.com.iug.integration.helper.db.ItemDBHelper;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;

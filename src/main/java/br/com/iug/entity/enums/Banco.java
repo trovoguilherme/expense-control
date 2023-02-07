@@ -10,7 +10,13 @@ import java.util.Map;
 public enum Banco {
 
     NUBANK(1),
-    ITAU(2);
+    ITAU(2),
+    SANTANDER(3),
+    BRADESCO(4),
+    INTER(5),
+    C6(6),
+    OUTROS(7),
+    NENHUM(8);
 
     private final Integer id;
 

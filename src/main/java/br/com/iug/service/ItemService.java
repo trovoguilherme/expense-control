@@ -3,14 +3,13 @@ package br.com.iug.service;
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.request.ItemRequest;
-import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -28,27 +27,8 @@ public class ItemService {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
 
-    public double getTotalValue(String banco, List<Long> idItens) throws BancoNotFoundException {
-        try {
-            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco)) && idItens != null) {
-                List<Item> itens = new ArrayList<>();
-                itens.addAll(itemRepository.findAllByBanco(banco));
-                itens.addAll(itemRepository.findAllByIdIn(idItens));
-
-                return itens.stream().distinct().mapToDouble(Item::getValor).sum();
-            }
-
-            if (banco != null && Banco.BANCO_ID_MAPPING.containsValue(Banco.valueOf(banco)) && idItens == null) {
-                return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValor).sum();
-            }
-
-            if (banco == null && idItens != null) {
-                return itemRepository.findAllByIdIn(idItens).stream().mapToDouble(Item::getValor).sum();
-            }
-        } catch (IllegalArgumentException e) {
-            throw new BancoNotFoundException("Banco '"+banco+"' não encontrado");
-        }
-        return itemRepository.findAll().stream().mapToDouble(Item::getValor).sum();
+    public double getTotalValue(Banco banco, List<Long> idItens) {
+        return itensSumByParam(banco, idItens);
     }
 
     public Item save(Item itemRequest) {
@@ -98,6 +78,23 @@ public class ItemService {
             itemRepository.deleteById(item.getId());
         }
 
+    }
+
+    private double itensSumByParam(Banco banco, List<Long> idItens) {
+        if (banco != null && idItens != null) {
+            return Stream.concat(itemRepository.findAllByBanco(banco.name()).stream(),
+                            itemRepository.findAllByIdIn(idItens).stream())
+                    .distinct().mapToDouble(Item::getValor).sum();
+
+        } else if (banco != null && idItens == null) {
+            return itemRepository.findAllByBanco(banco.name()).stream().mapToDouble(Item::getValor).sum();
+
+        } else if (banco == null && idItens != null) {
+            return itemRepository.findAllByIdIn(idItens).stream().mapToDouble(Item::getValor).sum();
+
+        } else {
+            return itemRepository.findAll().stream().mapToDouble(Item::getValor).sum();
+        }
     }
 
 }
