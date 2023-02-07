@@ -1,5 +1,6 @@
 package br.com.iug.controller;
 
+import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.history.ItemHistory;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.response.ItemResponse;
@@ -51,7 +52,7 @@ public class ItemController {
 
     @Operation(summary = "Retorna os gatos totais")
     @GetMapping("/gastos")
-    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) String banco,
+    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) Banco banco,
                                                 @RequestParam(value = "idsItem", required = false) List<Long> idsItem) throws BancoNotFoundException {
         return ResponseEntity.ok(itemService.getTotalValue(banco, idsItem));
     }
