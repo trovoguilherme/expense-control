@@ -1,4 +1,4 @@
-package br.com.iug.integration;
+package br.com.iug.integration.client;
 
 import br.com.iug.entity.request.ItemRequest;
 import io.restassured.RestAssured;
