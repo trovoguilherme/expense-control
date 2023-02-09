@@ -3,6 +3,7 @@ package br.com.iug.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,6 +25,12 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseException s(HttpServletRequest request, MethodArgumentNotValidException exception) {
         return new ResponseException(request, "Problemas com a requisição", exception.getBindingResult().getFieldError().getDefaultMessage());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseException httpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException exception) {
+        return new ResponseException(request, "Problemas com enum", exception.getCause().getMessage());
     }
 
 }

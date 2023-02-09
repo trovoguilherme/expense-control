@@ -1,6 +1,7 @@
 package br.com.iug.entity.request;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.enums.Banco;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -17,7 +18,7 @@ public class ItemRequest {
     @NotBlank(message = "{"+ ERROR_ITEM_NOME_VAZIO +"}")
     private String nome;
 
-    private String banco;
+    private Banco banco;
 
     @Positive(message = "{" + ERROR_ITEM_MENOR_QUE_ZERO + "}")
     private double valor;

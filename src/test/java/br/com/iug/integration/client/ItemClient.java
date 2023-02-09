@@ -1,5 +1,6 @@
 package br.com.iug.integration.client;
 
+import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.request.ItemRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -62,7 +63,7 @@ public class ItemClient {
                 .patch(ENDPOINT + "/{id}/pay");
     }
 
-    public Response payItemByBanco(String banco) {
+    public Response payItemByBanco(Banco banco) {
         return given()
                 .spec(specBuilder.build())
                 .queryParam("banco", banco)

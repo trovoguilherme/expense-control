@@ -48,7 +48,7 @@ public class ItemService {
         payItemOrSaveInHistory(itemFound);
     }
 
-    public void payByBanco(String banco) throws ItemNotFoundException {
+    public void payByBanco(Banco banco) throws ItemNotFoundException {
         var itens = itemRepository.findAllByBanco(banco);
 
         if (itens.isEmpty()) {
@@ -82,12 +82,12 @@ public class ItemService {
 
     private double itensSumByParam(Banco banco, List<Long> idItens) {
         if (banco != null && idItens != null) {
-            return Stream.concat(itemRepository.findAllByBanco(banco.name()).stream(),
+            return Stream.concat(itemRepository.findAllByBanco(banco).stream(),
                             itemRepository.findAllByIdIn(idItens).stream())
                     .distinct().mapToDouble(Item::getValor).sum();
 
         } else if (banco != null && idItens == null) {
-            return itemRepository.findAllByBanco(banco.name()).stream().mapToDouble(Item::getValor).sum();
+            return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValor).sum();
 
         } else if (banco == null && idItens != null) {
             return itemRepository.findAllByIdIn(idItens).stream().mapToDouble(Item::getValor).sum();
