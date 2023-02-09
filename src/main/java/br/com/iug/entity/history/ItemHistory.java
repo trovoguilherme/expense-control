@@ -1,6 +1,7 @@
 package br.com.iug.entity.history;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.enums.Banco;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,7 +31,7 @@ public class ItemHistory {
     private String nome;
 
     @Column(name = "banco")
-    private String banco;
+    private Banco banco;
 
     @OneToOne(cascade = CascadeType.ALL)
     private ParcelaHistory parcela;

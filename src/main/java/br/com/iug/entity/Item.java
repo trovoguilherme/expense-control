@@ -1,8 +1,11 @@
 package br.com.iug.entity;
 
+import br.com.iug.entity.enums.Banco;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,9 +34,9 @@ public class Item {
     @Column(name = "NOME")
     private String nome;
 
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "banco")
-    private String banco;
+    private Banco banco;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Parcela parcela;

@@ -50,13 +50,6 @@ public class ItemController {
         return ResponseEntity.ok(ItemResponse.from(itemService.findById(id)));
     }
 
-    @Operation(summary = "Retorna os gatos totais")
-    @GetMapping("/gastos")
-    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) Banco banco,
-                                                @RequestParam(value = "idsItem", required = false) List<Long> idsItem) throws BancoNotFoundException {
-        return ResponseEntity.ok(itemService.getTotalValue(banco, idsItem));
-    }
-
     @Operation(summary = "Cria um item")
     @PostMapping
     public ResponseEntity<Void> create(@Valid @RequestBody ItemRequest itemRequest) {
@@ -75,9 +68,16 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Retorna os gatos totais")
+    @GetMapping("/gastos")
+    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) Banco banco,
+                                                @RequestParam(value = "idsItem", required = false) List<Long> idsItem) throws BancoNotFoundException {
+        return ResponseEntity.ok(itemService.getTotalValue(banco, idsItem));
+    }
+
     @Operation(summary = "Paga os itens pelo banco")
     @PatchMapping("/pay")
-    public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") String banco) throws ItemNotFoundException {
+    public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") Banco banco) throws ItemNotFoundException {
         itemService.payByBanco(banco);
 
         return ResponseEntity.ok().build();
