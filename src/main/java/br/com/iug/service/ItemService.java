@@ -5,12 +5,21 @@ import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemService {
@@ -18,6 +27,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     private final ItemHistoryService itemHistoryService;
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    @Value("${topic.name}")
+    private String topicName;
 
     public List<Item> findAllWithParams(String nome, String banco) {
         return itemRepository.findAllWithParams(nome, banco);
@@ -31,8 +45,21 @@ public class ItemService {
         return itensSumByParam(banco, idItens);
     }
 
+    @Transactional
     public Item save(Item itemRequest) {
-        return itemRepository.save(itemRequest);
+        var itemSaved = itemRepository.save(itemRequest);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        try {
+            kafkaTemplate.send(topicName, objectMapper.writeValueAsString(itemSaved));
+            log.info("m=saveItem, id={}", itemSaved.getId());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return itemSaved;
     }
 
     public Item update(long id, ItemRequest itemRequest) throws ItemNotFoundException {
