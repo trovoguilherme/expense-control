@@ -17,8 +17,14 @@ spring:
       ddl-auto: create
   config:
     import: classpath:application-dev.yml
+  kafka:
+    bootstrap-servers: localhost:9092
+
 
 # Default path: /swagger-ui/index.html
 springdoc:
   swagger-ui.path: /swagger
   show-actuator: true
+
+topic:
+  name: expense.test.topic
