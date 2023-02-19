@@ -2,18 +2,18 @@ package br.com.iug.service;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.producer.processor.SuccessProcessor;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class ItemService {
 
     private final ItemHistoryService itemHistoryService;
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final SuccessProcessor successProcessor;
 
     @Value("${topic.name}")
     private String topicName;
@@ -45,6 +45,7 @@ public class ItemService {
         return itensSumByParam(banco, idItens);
     }
 
+    @SneakyThrows
     @Transactional
     public Item save(Item itemRequest) {
         var itemSaved = itemRepository.save(itemRequest);
@@ -52,12 +53,8 @@ public class ItemService {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        try {
-            kafkaTemplate.send(topicName, objectMapper.writeValueAsString(itemSaved));
-            log.info("m=saveItem, id={}", itemSaved.getId());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        successProcessor.process(objectMapper.writeValueAsString(itemSaved));
+        log.info("m=saveItem, id={}", itemSaved.getId());
 
         return itemSaved;
     }
