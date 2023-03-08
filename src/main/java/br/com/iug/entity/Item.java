@@ -76,6 +76,10 @@ public class Item {
         this.valorRestante = this.valor * this.parcela.getQtdRestante();
     }
 
+    public void finished() {
+        status = Status.FINALIZADO;
+    }
+
     public void update(Item item) {
         this.nome = item.getNome();
         this.banco = item.getBanco();

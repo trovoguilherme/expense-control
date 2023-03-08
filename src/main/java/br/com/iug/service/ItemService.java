@@ -68,12 +68,14 @@ public class ItemService {
 
         if (item.getParcela() != null) {
             if (item.isPay()) {
+                item.finished();
                 itemHistoryService.save(item);
                 itemRepository.deleteById(item.getId());
             } else {
                 itemRepository.save(item);
             }
         } else {
+            item.finished();
             itemHistoryService.save(item);
             itemRepository.deleteById(item.getId());
         }
