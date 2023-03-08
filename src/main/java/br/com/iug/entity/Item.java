@@ -1,6 +1,7 @@
 package br.com.iug.entity;
 
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +51,10 @@ public class Item {
     @Column(name = "VALOR_TOTAL")
     private double valorTotal;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private Status status;
+
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
@@ -75,6 +80,7 @@ public class Item {
         this.nome = item.getNome();
         this.banco = item.getBanco();
         this.valor = item.getValor();
+        this.status = item.getStatus();
         if (this.parcela != null) {
             this.parcela.update(item.getParcela());
             this.valorRestante = this.valor * this.parcela.getQtdRestante();
