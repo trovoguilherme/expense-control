@@ -2,9 +2,12 @@ package br.com.iug.entity.history;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -45,6 +48,10 @@ public class ItemHistory {
     @Column(name = "VALOR_TOTAL")
     private double valorTotal;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private Status status;
+
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
@@ -57,6 +64,7 @@ public class ItemHistory {
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())
+                .status(item.getStatus())
                 .build();
     }
 

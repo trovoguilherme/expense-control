@@ -3,6 +3,7 @@ package br.com.iug.service;
 import br.com.iug.entity.Item;
 import br.com.iug.entity.Parcela;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.BancoNotFoundException;
@@ -105,7 +106,7 @@ public class ItemServiceTest {
     @Test
     @DisplayName("Deve salvar um item")
     void shouldSaveItem() {
-        final ItemRequest itemRequest = new ItemRequest("Skate", Banco.NUBANK, 1200, new ParcelaRequest(1 ,2));
+        final ItemRequest itemRequest = new ItemRequest("Skate", Banco.NUBANK, 1200, new ParcelaRequest(1 ,2), Status.ATIVO);
 
         itemService.save(itemRequest.toItem());
 
@@ -116,7 +117,7 @@ public class ItemServiceTest {
     @DisplayName("Deve atualizar um item que tem parcela")
     void shouldUpdateItemWithParcela() throws ItemNotFoundException {
         var item = generateItens().get(0);
-        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, new ParcelaRequest(9, 3));
+        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, new ParcelaRequest(9, 3), Status.ATIVO);
 
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
 
@@ -133,7 +134,7 @@ public class ItemServiceTest {
     @DisplayName("Deve atualizar um item sem parcela")
     void shouldUpdateItemWithoutParcela() throws ItemNotFoundException {
         var item = generateItens().get(1);
-        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, null);
+        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, null, Status.ATIVO);
 
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
 
@@ -187,10 +188,10 @@ public class ItemServiceTest {
 
     private List<Item> generateItens() {
         return List.of(
-                new Item(1, "GPU", Banco.NUBANK, new Parcela(1, 2, 1), 100, 100, 300, LocalDateTime.now()),
-                new Item(2, "Steam", Banco.NUBANK, null, 150, 150, 150, LocalDateTime.now()),
-                new Item(3, "Skate", Banco.NUBANK, new Parcela(2, 2, 2), 100, 200, 400, LocalDateTime.now()),
-                new Item(4, "Shape", Banco.ITAU, new Parcela(1, 2, 3), 100, 300, 500, LocalDateTime.now())
+                new Item(1, "GPU", Banco.NUBANK, new Parcela(1, 2, 1), 100, 100, 300, Status.ATIVO, LocalDateTime.now()),
+                new Item(2, "Steam", Banco.NUBANK, null, 150, 150, 150, Status.ATIVO, LocalDateTime.now()),
+                new Item(3, "Skate", Banco.NUBANK, new Parcela(2, 2, 2), 100, 200, 400, Status.ATIVO, LocalDateTime.now()),
+                new Item(4, "Shape", Banco.ITAU, new Parcela(1, 2, 3), 100, 300, 500, Status.ATIVO, LocalDateTime.now())
         );
     }
 

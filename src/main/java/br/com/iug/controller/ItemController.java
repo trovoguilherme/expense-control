@@ -1,6 +1,7 @@
 package br.com.iug.controller;
 
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.history.ItemHistory;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.response.ItemResponse;
@@ -40,8 +41,9 @@ public class ItemController {
     @Operation(summary = "Retorna todos os itens")
     @GetMapping
     public ResponseEntity<List<ItemResponse>> findAllWithParams(@RequestParam(value = "nome", required = false) String nome,
-                                                      @RequestParam(value = "banco", required = false) String banco) {
-        return ResponseEntity.ok(itemService.findAllWithParams(nome, banco).stream().map(ItemResponse::from).collect(Collectors.toList()));
+                                                                @RequestParam(value = "banco", required = false) String banco,
+                                                                @RequestParam(value = "status", required = false) Status status) {
+        return ResponseEntity.ok(itemService.findAllWithParams(nome, banco, status).stream().map(ItemResponse::from).collect(Collectors.toList()));
     }
 
     @Operation(summary = "Retorna o item pelo id")

@@ -1,6 +1,7 @@
 package br.com.iug.integration;
 
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.entity.response.ItemResponse;
@@ -52,7 +53,7 @@ public class ItemTest {
     @Test
     @DisplayName("Deve criar um item com parcela")
     void shouldCreteItemWithParcela() {
-        var itemRequest = new ItemRequest("com-parcela", Banco.NUBANK, 800, new ParcelaRequest(2, 10));
+        var itemRequest = new ItemRequest("com-parcela", Banco.NUBANK, 800, new ParcelaRequest(2, 10), Status.ATIVO);
 
         Response response = client.create(itemRequest);
 
@@ -66,7 +67,7 @@ public class ItemTest {
     @Test
     @DisplayName("Deve criar um item sem parcela")
     void shouldCreteItemWithoutParcela() {
-        var itemRequest = new ItemRequest("sem-parcela", Banco.NUBANK, 800, null);
+        var itemRequest = new ItemRequest("sem-parcela", Banco.NUBANK, 800, null, Status.ATIVO);
 
         Response response = client.create(itemRequest);
 
@@ -81,7 +82,7 @@ public class ItemTest {
     @DisplayName("Deve atualizar um item com parcela")
     void shouldUpdateItemWithParcela() throws ItemNotFoundException {
         var itemCreated = itemDBHelper.findByNameOrCreate("caderno");
-        var itemRequest = new ItemRequest("atualizar-com-parcela", Banco.NUBANK, 800, new ParcelaRequest(2, 10));
+        var itemRequest = new ItemRequest("atualizar-com-parcela", Banco.NUBANK, 800, new ParcelaRequest(2, 10), Status.ATIVO);
 
         Response response = client.update(itemCreated.getId(), itemRequest);
 
@@ -96,7 +97,7 @@ public class ItemTest {
     @DisplayName("Deve atualizar um item sem parcela")
     void shouldUpdateItemWithoutParcela() throws ItemNotFoundException {
         var itemCreated = itemDBHelper.findByNameOrCreateWithoutParcela("sem");
-        var itemRequest = new ItemRequest("atualizado-sem-parcela", Banco.NUBANK, 800, null);
+        var itemRequest = new ItemRequest("atualizado-sem-parcela", Banco.NUBANK, 800, null, Status.ATIVO);
 
         Response response = client.update(itemCreated.getId(), itemRequest);
 
@@ -112,7 +113,7 @@ public class ItemTest {
     @DisplayName("Deve dar erro ao tentar atualizar um item que tem parcela com um sem parcela")
     void shouldReturnInternalServerError()  {
         var itemCreated = itemDBHelper.findByNameOrCreate("com-parcela");
-        var itemRequest = new ItemRequest("pc", Banco.NUBANK, 800, null);
+        var itemRequest = new ItemRequest("pc", Banco.NUBANK, 800, null, Status.ATIVO);
 
         Response response = client.update(itemCreated.getId(), itemRequest);
 

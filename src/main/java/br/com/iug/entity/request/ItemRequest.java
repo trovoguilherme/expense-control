@@ -2,6 +2,7 @@ package br.com.iug.entity.request;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -25,6 +26,8 @@ public class ItemRequest {
 
     @Valid
     private ParcelaRequest parcela;
+    
+    private Status status;
 
     public Item toItem() {
         return Item.builder()
@@ -32,6 +35,7 @@ public class ItemRequest {
                 .banco(this.banco)
                 .parcela(this.parcela != null ? this.parcela.toParcela() : null)
                 .valor(this.valor)
+                .status(this.status)
                 .valorRestante(this.parcela != null ? this.valor * this.parcela.getQtdRestante() : this.valor)
                 .valorTotal(this.parcela != null ? this.valor * (this.parcela.getQtdPaga() + this.parcela.getQtdRestante()) : this.valor)
                 .build();

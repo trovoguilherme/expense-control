@@ -2,6 +2,7 @@ package br.com.iug.service;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
@@ -19,8 +20,8 @@ public class ItemService {
 
     private final ItemHistoryService itemHistoryService;
 
-    public List<Item> findAllWithParams(String nome, String banco) {
-        return itemRepository.findAllWithParams(nome, banco);
+    public List<Item> findAllWithParams(String nome, String banco, Status status) {
+        return itemRepository.findAllWithParams(nome, banco, status);
     }
 
     public Item findById(long id) throws ItemNotFoundException {
@@ -68,12 +69,14 @@ public class ItemService {
 
         if (item.getParcela() != null) {
             if (item.isPay()) {
+                item.finished();
                 itemHistoryService.save(item);
                 itemRepository.deleteById(item.getId());
             } else {
                 itemRepository.save(item);
             }
         } else {
+            item.finished();
             itemHistoryService.save(item);
             itemRepository.deleteById(item.getId());
         }

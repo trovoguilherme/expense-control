@@ -12,8 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        hbm2ddl:
-          import_files: sql/populate-database.sql
+        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create
   config:
