@@ -3,6 +3,7 @@ package br.com.iug.integration.helper.db;
 import br.com.iug.entity.Item;
 import br.com.iug.entity.Parcela;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,11 +50,11 @@ public class ItemDBHelper {
     }
 
     private Item generateItem(String nome) {
-        return new Item(1, nome, Banco.NUBANK, new Parcela(1, 2, 2), 100, 100, 300, LocalDateTime.now());
+        return new Item(1, nome, Banco.NUBANK, new Parcela(1, 2, 2), 100, 100, 300, Status.ATIVO, LocalDateTime.now());
     }
 
     private Item generateItemWithoutParcela(String nome) {
-        return new Item(1, nome, Banco.NUBANK, null, 100, 100, 300, LocalDateTime.now());
+        return new Item(1, nome, Banco.NUBANK, null, 100, 100, 300, Status.ATIVO, LocalDateTime.now());
     }
 
     private List<Item> generateItens() {

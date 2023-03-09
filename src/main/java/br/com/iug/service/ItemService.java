@@ -33,8 +33,8 @@ public class ItemService {
     @Value("${topic.name}")
     private String topicName;
 
-    public List<Item> findAllWithParams(String nome, String banco) {
-        return itemRepository.findAllWithParams(nome, banco);
+    public List<Item> findAllWithParams(String nome, String banco, Status status) {
+        return itemRepository.findAllWithParams(nome, banco, status);
     }
 
     public Item findById(long id) throws ItemNotFoundException {
@@ -92,12 +92,14 @@ public class ItemService {
 
         if (item.getParcela() != null) {
             if (item.isPay()) {
+                item.finished();
                 itemHistoryService.save(item);
                 itemRepository.deleteById(item.getId());
             } else {
                 itemRepository.save(item);
             }
         } else {
+            item.finished();
             itemHistoryService.save(item);
             itemRepository.deleteById(item.getId());
         }

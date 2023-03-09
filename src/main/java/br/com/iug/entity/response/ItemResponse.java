@@ -2,6 +2,7 @@ package br.com.iug.entity.response;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Banco;
+import br.com.iug.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,8 @@ public class ItemResponse {
 
     private double valorTotal;
 
+    private Status status;
+
     public static ItemResponse from(Item item) {
         return ItemResponse.builder()
                 .id(item.getId())
@@ -38,6 +41,7 @@ public class ItemResponse {
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())
+                .status(item.getStatus())
                 .build();
     }
 
