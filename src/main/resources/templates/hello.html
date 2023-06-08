@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de gastos</title>
+    <link th:href="@{index/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<header class="container">
+    <h1>Lista de gastos</h1>
+
+    <div class="valores">
+
+        <div class="gasto">
+            <h2>Gasto total</h2>
+            <p class="valor-gasto" th:text="${gastoTotal}"></p>
+        </div>
+
+        <div class="restante">
+            <h2>Dinheiro restante</h2>
+            <p class="valor-resto" th:text="${valorRestante}"></p>
+        </div>
+
+        <div class="novo-item">
+
+        </div>
+
+    </div>
+</header>
+
+<main class="main container">
+
+    <ul class="ul-label">
+        <li class="item-nome"><b>Item</b></li>
+        <li class="item-numero"><b>Mês</b></li>
+        <li class="item-numero"><b>Pagas</b></li>
+        <li class="item-numero"><b>Restantes</b></li>
+        <li class="item-numero"><b>Falta</b></li>
+        <li class="item-numero"><b>Total</b></li>
+    </ul>
+
+    <div class="itens">
+
+        <div class="item" th:each="item : ${itens}">
+
+            <a th:href="@{'/'+${item.getId()}}"><span class="item-nome" th:text="${item.getNome()}"></span></a>
+            <span class="item-numero" th:onclick="somar(/*[[${item.getId()}]]*/, /*[[${item.getValor()}]]*/)" th:text="${item.getValor()}"></span>
+            <span class="item-numero" th:text="${item.getParcela().getQtdPaga()}"></span>
+            <span class="item-numero" th:text="${item.getParcela().getQtdRestante()}"></span>
+            <span class="item-numero" th:text="${item.getValorRestante()}"></span>
+            <span class="item-numero" th:text="${item.getValorTotal()}"></span>
+
+        </div>
+
+
+    </div>
+
+    <p>Resultado: <span id="resultado">0</span></p>
+
+</main>
+
+    <script>
+        var resultado = 0;
+        var mapaValor = new Map();
+        function somar(id, valor) {
+            if (mapaValor.has(id)) {
+                console.log("Retirando o valor: "+valor+" do id: "+id);
+                mapaValor.delete(id);
+                resultado -= valor;
+            } else {
+                console.log("Adicionando o valor: "+valor+" do id: "+id);
+                mapaValor.set(id, valor);
+                resultado += parseFloat(valor);
+            }
+            document.getElementById("resultado").textContent = resultado;
+        }
+
+    </script>
+
+</body>
+</html>
