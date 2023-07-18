@@ -33,4 +33,10 @@ public class RestExceptionHandler {
         return new ResponseException(request, "Problemas com enum", exception.getCause().getMessage());
     }
 
+    @ExceptionHandler(ItemNotUpdateParcelaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseException ItemNotUpdateExceptionException(HttpServletRequest request, ItemNotUpdateParcelaException exception) {
+        return new ResponseException(request, "Problemas com a requisição", exception.getMessage());
+    }
+
 }

@@ -5,8 +5,8 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/expense
-    username: gui
-    password: senha123
+    username: root
+    password: root
   jpa:
     show-sql: true
     properties:
@@ -15,8 +15,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create
-  config:
-    import: classpath:application-dev.yml
 
 # Default path: /swagger-ui/index.html
 springdoc:
