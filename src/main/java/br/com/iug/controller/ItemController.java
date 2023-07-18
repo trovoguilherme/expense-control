@@ -7,6 +7,7 @@ import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.response.ItemResponse;
 import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
+import br.com.iug.exception.ItemNotUpdateParcelaException;
 import br.com.iug.service.ItemHistoryService;
 import br.com.iug.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,9 +66,8 @@ public class ItemController {
 
     @Operation(summary = "Atualiza um item")
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ItemRequest itemRequest) throws ItemNotFoundException {
-        itemService.update(id, itemRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ItemResponse> update(@PathVariable("id") long id, @Valid @RequestBody ItemRequest itemRequest) throws ItemNotFoundException, ItemNotUpdateParcelaException {
+        return ResponseEntity.ok(ItemResponse.from(itemService.update(id, itemRequest)));
     }
 
     @Operation(summary = "Retorna os gatos totais")

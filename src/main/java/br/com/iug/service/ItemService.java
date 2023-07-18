@@ -1,11 +1,14 @@
 package br.com.iug.service;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.Parcela;
 import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.producer.processor.SuccessProcessor;
 import br.com.iug.entity.request.ItemRequest;
+import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.ItemNotFoundException;
+import br.com.iug.exception.ItemNotUpdateParcelaException;
 import br.com.iug.repository.ItemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -60,8 +63,10 @@ public class ItemService {
         return itemSaved;
     }
 
-    public Item update(long id, ItemRequest itemRequest) throws ItemNotFoundException {
+    public Item update(long id, ItemRequest itemRequest) throws ItemNotFoundException, ItemNotUpdateParcelaException {
         var itemFound = findById(id);
+
+        verifyUpdateParcela(itemFound.getParcela(), itemRequest.getParcela());
 
         itemFound.update(itemRequest.toItem());
 
@@ -122,6 +127,15 @@ public class ItemService {
         } else {
             return itemRepository.findAll().stream().mapToDouble(Item::getValor).sum();
         }
+    }
+
+    private void verifyUpdateParcela(Parcela parcela, ParcelaRequest parcelaRequest) throws ItemNotUpdateParcelaException {
+        if (parcela == null && parcelaRequest != null) {
+            throw new ItemNotUpdateParcelaException("Não é permitido adicionar parcela nesse item");
+        } else {
+            throw new ItemNotUpdateParcelaException("Não é permitido retirar parcela desse item");
+        }
+
     }
 
 }
