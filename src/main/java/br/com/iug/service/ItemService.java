@@ -132,10 +132,9 @@ public class ItemService {
     private void verifyUpdateParcela(Parcela parcela, ParcelaRequest parcelaRequest) throws ItemNotUpdateParcelaException {
         if (parcela == null && parcelaRequest != null) {
             throw new ItemNotUpdateParcelaException("Não é permitido adicionar parcela nesse item");
-        } else {
+        } else if (parcela != null && parcelaRequest == null) {
             throw new ItemNotUpdateParcelaException("Não é permitido retirar parcela desse item");
         }
-
     }
 
 }
