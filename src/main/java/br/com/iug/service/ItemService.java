@@ -50,12 +50,13 @@ public class ItemService {
     }
 
     //TODO Adicionar validação para saber se o item está pago no mês e um schedule para resetar esse campo para poder ser pago novamente
-    public void pay(long id) throws ItemNotFoundException {
+    public Item pay(long id) throws ItemNotFoundException {
         var itemFound = findById(id);
         payItemOrSaveInHistory(itemFound);
+        return itemFound;
     }
 
-    public void payByBanco(Banco banco) throws ItemNotFoundException {
+    public List<Item> payByBanco(Banco banco) throws ItemNotFoundException {
         var itens = itemRepository.findAllByBanco(banco);
 
         if (itens.isEmpty()) {
@@ -63,6 +64,8 @@ public class ItemService {
         }
 
         itens.forEach(this::payItemOrSaveInHistory);
+
+        return itens;
     }
 
     public void deleteById(long id) throws ItemNotFoundException {

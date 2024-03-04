@@ -21,4 +21,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByNome(String nome);
 
     List<Item> findAllByIdIn(List<Long> ids);
+
+    List<Item> findAllByStatusAndPagoNoMesIsTrue(Status status);
+
 }

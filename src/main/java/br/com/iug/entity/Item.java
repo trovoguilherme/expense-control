@@ -55,6 +55,9 @@ public class Item {
     @Column(name = "STATUS")
     private Status status;
 
+    @Column(name = "PAGO_NO_MES")
+    private boolean pagoNoMes = false;
+
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
@@ -63,11 +66,14 @@ public class Item {
     }
 
     public void pay() {
-        if (this.parcela != null) {
-            this.parcela.pay();
-            this.valorRestante = this.valor * this.parcela.getQtdRestante();
-        } else {
-            this.valorRestante = 0;
+        if (!pagoNoMes) {
+            if (this.parcela != null) {
+                this.parcela.pay();
+                this.valorRestante = this.valor * this.parcela.getQtdRestante();
+                this.pagoNoMes = true;
+            } else {
+                this.valorRestante = 0;
+            }
         }
     }
 
@@ -78,6 +84,10 @@ public class Item {
 
     public void finished() {
         status = Status.FINALIZADO;
+    }
+
+    public void payingThisMonth() {
+        this.pagoNoMes = false;
     }
 
     public void update(Item item) {

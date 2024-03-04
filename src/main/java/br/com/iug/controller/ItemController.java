@@ -79,17 +79,14 @@ public class ItemController {
 
     @Operation(summary = "Paga os itens pelo banco")
     @PatchMapping("/pay")
-    public ResponseEntity<Void> payItemByBanco(@RequestParam(value = "banco") Banco banco) throws ItemNotFoundException {
-        itemService.payByBanco(banco);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<ItemResponse>> payItemByBanco(@RequestParam(value = "banco") Banco banco) throws ItemNotFoundException {
+        return ResponseEntity.ok(itemService.payByBanco(banco).stream().map(ItemResponse::from).toList());
     }
 
     @Operation(summary = "Paga um item pelo id")
     @PatchMapping("/{id}/pay")
-    public ResponseEntity<Void> payItem(@PathVariable("id") long id) throws ItemNotFoundException {
-        itemService.pay(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ItemResponse> payItem(@PathVariable("id") long id) throws ItemNotFoundException {
+        return ResponseEntity.ok(ItemResponse.from(itemService.pay(id)));
     }
 
     @Operation(summary = "Deleta um item pelo id")

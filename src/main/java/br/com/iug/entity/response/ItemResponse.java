@@ -32,6 +32,8 @@ public class ItemResponse {
 
     private Status status;
 
+    private boolean pagoNoMes;
+
     public static ItemResponse from(Item item) {
         return ItemResponse.builder()
                 .id(item.getId())
@@ -42,6 +44,7 @@ public class ItemResponse {
                 .valorRestante(item.getValorRestante())
                 .valorTotal(item.getValorTotal())
                 .status(item.getStatus())
+                .pagoNoMes(item.isPagoNoMes())
                 .build();
     }
 
