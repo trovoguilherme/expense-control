@@ -49,6 +49,7 @@ public class ItemService {
         return itemRepository.save(itemFound);
     }
 
+    //TODO Adicionar validação para saber se o item está pago no mês e um schedule para resetar esse campo para poder ser pago novamente
     public void pay(long id) throws ItemNotFoundException {
         var itemFound = findById(id);
         payItemOrSaveInHistory(itemFound);
