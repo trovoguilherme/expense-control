@@ -62,6 +62,7 @@ services:
     image: postgres:latest
     restart: always
     environment:
+      POSTGRES_DB: expense
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       PGDATA: /data/postgres

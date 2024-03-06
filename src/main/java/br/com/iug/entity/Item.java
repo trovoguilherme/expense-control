@@ -10,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ import java.time.LocalDateTime;
 public class Item {
 
     @Id
+    @Column(name = "ID_ITEM")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -36,10 +38,11 @@ public class Item {
     private String nome;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "banco")
+    @Column(name = "BANCO")
     private Banco banco;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PARCELA")
     private Parcela parcela;
 
     @Column(name = "VALOR")
@@ -58,6 +61,7 @@ public class Item {
     @Column(name = "PAGO_NO_MES")
     private boolean pagoNoMes = false;
 
+    @Column(name = "CRIADO_EM")
     @CreationTimestamp
     private LocalDateTime criadoEm;
 

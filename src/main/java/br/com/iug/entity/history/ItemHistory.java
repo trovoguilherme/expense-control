@@ -28,12 +28,13 @@ import java.time.LocalDateTime;
 public class ItemHistory {
 
     @Id
+    @Column(name = "ID_ITEM")
     private long id;
 
     @Column(name = "NOME")
     private String nome;
 
-    @Column(name = "banco")
+    @Column(name = "BANCO")
     private Banco banco;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -53,6 +54,7 @@ public class ItemHistory {
     private Status status;
 
     @CreationTimestamp
+    @Column(name = "CRIADO_EM")
     private LocalDateTime criadoEm;
 
     public static ItemHistory from(Item item) {

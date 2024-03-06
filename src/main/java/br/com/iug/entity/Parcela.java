@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class Parcela {
 
     @Id
+    @Column(name = "ID_PARCELA")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
