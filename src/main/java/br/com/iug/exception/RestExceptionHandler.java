@@ -15,7 +15,7 @@ public class RestExceptionHandler {
     @Value("Recurso não encontrado")
     private String resourceNotFound;
 
-    @ExceptionHandler({ItemNotFoundException.class, BancoNotFoundException.class})
+    @ExceptionHandler({NotFoundException.class, ItemNotFoundException.class, BancoNotFoundException.class, PagamentoNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseException notFoundException(HttpServletRequest request, Exception exception) {
         return new ResponseException(request, resourceNotFound, exception.getMessage());
@@ -27,11 +27,11 @@ public class RestExceptionHandler {
         return new ResponseException(request, "Problemas com a requisição", exception.getBindingResult().getFieldError().getDefaultMessage());
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseException httpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException exception) {
-        return new ResponseException(request, "Problemas com enum", exception.getCause().getMessage());
-    }
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ResponseException httpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException exception) {
+//        return new ResponseException(request, "Problemas com enum", exception.getCause().getMessage());
+//    }
 
     @ExceptionHandler(ItemNotUpdateParcelaException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

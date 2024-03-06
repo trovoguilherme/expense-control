@@ -35,6 +35,10 @@ public class Pagamento {
     @CreationTimestamp
     private LocalDateTime criadoEm;
 
+    public void update(Pagamento pagamento) {
+        this.nome = pagamento.getNome();
+    }
+
     public PagamentoResponse toPagamentoResponse() {
         return PagamentoResponse.builder()
                 .nome(nome)

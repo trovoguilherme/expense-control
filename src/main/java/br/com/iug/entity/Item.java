@@ -1,6 +1,5 @@
 package br.com.iug.entity;
 
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,9 +36,9 @@ public class Item {
     @Column(name = "NOME")
     private String nome;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "BANCO")
-    private Banco banco;
+    @OneToOne
+    @JoinColumn(name = "ID_PAGAMENTO")
+    private Pagamento pagamento;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_PARCELA")
@@ -96,7 +95,7 @@ public class Item {
 
     public void update(Item item) {
         this.nome = item.getNome();
-        this.banco = item.getBanco();
+        this.pagamento.update(item.getPagamento());
         this.valor = item.getValor();
         this.status = item.getStatus();
         if (this.parcela != null) {
