@@ -116,7 +116,7 @@ public class ItemServiceTest {
     void shouldSaveItem() {
         final ItemRequest itemRequest = new ItemRequest("Skate", new PagamentoRequest("NUBANK"), 1200, new ParcelaRequest(1 ,2), Status.ATIVO);
 
-        when(pagamentoService.existsByNome(anyString())).thenReturn(true);
+        when(pagamentoService.findByNome(anyString())).thenReturn(generatePagamento("NUBANK"));
 
         itemService.save(itemRequest.toItem());
 
