@@ -18,10 +18,6 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public boolean existsByNome(String nome) {
-        return pagamentoRepository.existsByNome(nome);
-    }
-
     public List<Pagamento> findAll() {
         return pagamentoRepository.findAll();
     }
