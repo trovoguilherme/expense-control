@@ -1,11 +1,12 @@
 package br.com.iug.integration.helper.db;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.Pagamento;
 import br.com.iug.entity.Parcela;
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.repository.ItemRepository;
+import br.com.iug.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -23,16 +24,22 @@ public class ItemDBHelper {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public Item findByNameOrCreate(String nome) {
         return itemRepository.findByNome(nome).orElseGet(() -> {
-            return itemRepository.save(generateItem(nome));
+            var item = generateItem(nome);
+            pagamentoRepository.save(item.getPagamento());
+            return itemRepository.save(item);
         });
     }
 
     public Item findByNameOrCreateWithoutParcela(String nome) {
         return itemRepository.findByNome(nome).orElseGet(() -> {
-            return itemRepository.save(generateItemWithoutParcela(nome));
+            var item = generateItemWithoutParcela(nome);
+            pagamentoRepository.save(item.getPagamento());
+            return itemRepository.save(item);
         });
     }
 
@@ -50,19 +57,29 @@ public class ItemDBHelper {
     }
 
     private Item generateItem(String nome) {
-        return new Item(1, nome, Banco.NUBANK, new Parcela(1, 2, 2), 100, 100, 300, Status.ATIVO, LocalDateTime.now());
+        return new Item(
+                1,
+                nome,
+                new Pagamento(1, "NUBANK", LocalDateTime.now()),
+                new Parcela(1, 2, 2),
+                100,
+                100,
+                300,
+                Status.ATIVO,
+                false,
+                LocalDateTime.now());
     }
 
     private Item generateItemWithoutParcela(String nome) {
-        return new Item(1, nome, Banco.NUBANK, null, 100, 100, 300, Status.ATIVO, LocalDateTime.now());
+        return new Item(1, nome, new Pagamento(1, "NUBANK", LocalDateTime.now()), null, 100, 100, 300, Status.ATIVO, false, LocalDateTime.now());
     }
 
     private List<Item> generateItens() {
         return List.of(
-                Item.builder().nome("GPU").banco(Banco.NUBANK).valor(100).parcela(Parcela.builder().qtdRestante(2).qtdRestante(2).build()).build(),
-                Item.builder().nome("Steam").banco(Banco.NUBANK).valor(350).parcela(null).build(),
-                Item.builder().nome("Skate").banco(Banco.NUBANK).valor(200).parcela(Parcela.builder().qtdRestante(2).qtdRestante(2).build()).build(),
-                Item.builder().nome("Shape").banco(Banco.ITAU).valor(900).parcela(Parcela.builder().qtdRestante(2).qtdRestante(3).build()).build()
+                Item.builder().nome("GPU").pagamento(Pagamento.builder().nome("NUBANK").build()).valor(100).parcela(Parcela.builder().qtdRestante(2).qtdRestante(2).build()).build(),
+                Item.builder().nome("Steam").pagamento(Pagamento.builder().nome("NUBANK").build()).valor(350).parcela(null).build(),
+                Item.builder().nome("Skate").pagamento(Pagamento.builder().nome("NUBANK").build()).valor(200).parcela(Parcela.builder().qtdRestante(2).qtdRestante(2).build()).build(),
+                Item.builder().nome("Shape").pagamento(Pagamento.builder().nome("ITAU").build()).valor(900).parcela(Parcela.builder().qtdRestante(2).qtdRestante(3).build()).build()
         );
     }
 
