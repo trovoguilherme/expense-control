@@ -34,7 +34,7 @@ public class ItemRequest {
     public Item toItem() {
         return Item.builder()
                 .nome(this.nome)
-                .pagamento(Pagamento.builder().nome(this.pagamento.getNome()).build())
+                .pagamento(pagamento.toPagamento())
                 .parcela(this.parcela != null ? this.parcela.toParcela() : null)
                 .valor(this.valor)
                 .status(this.status)
