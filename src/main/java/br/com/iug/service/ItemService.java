@@ -8,14 +8,11 @@ import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.exception.ItemNotUpdateParcelaException;
 import br.com.iug.exception.NotFoundException;
-import br.com.iug.exception.PagamentoNotFoundException;
 import br.com.iug.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -39,13 +36,11 @@ public class ItemService {
     public double getSumParcelasByMonth(String pagamento, List<Long> idItens) {
         return getItens(pagamento, idItens)
                 .stream().mapToDouble(Item::getValor).sum();
-
     }
     public Double getSumParcelasToPayOff(String pagamento, List<Long> idItens) {
         return getItens(pagamento, idItens)
                 .stream().mapToDouble(Item::getValorRestante).sum();
     }
-
 
     public Item save(Item itemRequest) throws NotFoundException {
         if (!pagamentoService.existsByNome(itemRequest.getPagamento().getNome())) {
