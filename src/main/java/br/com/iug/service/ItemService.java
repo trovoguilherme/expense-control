@@ -42,10 +42,9 @@ public class ItemService {
                 .stream().mapToDouble(Item::getValorRestante).sum();
     }
 
-    public Item save(Item itemRequest) throws NotFoundException {
-        if (!pagamentoService.existsByNome(itemRequest.getPagamento().getNome())) {
-            throw new NotFoundException("O pagamento não existe");
-        }
+    public Item save(Item itemRequest) {
+        var pagamentoFound = pagamentoService.findByNome(itemRequest.getPagamento().getNome());
+        itemRequest.setPagamento(pagamentoFound);
         return itemRepository.save(itemRequest);
     }
 
