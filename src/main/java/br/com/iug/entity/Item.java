@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ public class Item {
     @Column(name = "NOME")
     private String nome;
 
+    @Setter
     @OneToOne
     @JoinColumn(name = "ID_PAGAMENTO")
     private Pagamento pagamento;
