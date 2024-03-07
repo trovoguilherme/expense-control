@@ -1,6 +1,5 @@
 package br.com.iug.controller;
 
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.history.ItemHistory;
 import br.com.iug.entity.request.ItemRequest;
@@ -8,6 +7,8 @@ import br.com.iug.entity.response.ItemResponse;
 import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.exception.ItemNotUpdateParcelaException;
+import br.com.iug.exception.NotFoundException;
+import br.com.iug.exception.PagamentoNotFoundException;
 import br.com.iug.service.ItemHistoryService;
 import br.com.iug.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +56,7 @@ public class ItemController {
 
     @Operation(summary = "Cria um item")
     @PostMapping
-    public ResponseEntity<Void> create(@Valid @RequestBody ItemRequest itemRequest) {
+    public ResponseEntity<Void> create(@Valid @RequestBody ItemRequest itemRequest) throws NotFoundException {
         var itemCreated = itemService.save(itemRequest.toItem());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -70,17 +71,24 @@ public class ItemController {
         return ResponseEntity.ok(ItemResponse.from(itemService.update(id, itemRequest)));
     }
 
-    @Operation(summary = "Retorna os gatos totais")
-    @GetMapping("/gastos")
-    public ResponseEntity<Double> getTotalValue(@RequestParam(value = "banco", required = false) Banco banco,
-                                                @RequestParam(value = "idsItem", required = false) List<Long> idsItem) throws BancoNotFoundException {
-        return ResponseEntity.ok(itemService.getTotalValue(banco, idsItem));
+    @Operation(summary = "Retorna a soma dos gastos das parcelas no mês")
+    @GetMapping("/gastos/mes")
+    public ResponseEntity<Double> getSumParcelasByMonth(@RequestParam(value = "nomePagamento", required = false) String nomePagamento,
+                                                @RequestParam(value = "idsItem", required = false) List<Long> idsItem) {
+        return ResponseEntity.ok(itemService.getSumParcelasByMonth(nomePagamento, idsItem));
+    }
+
+    @Operation(summary = "Retorna a soma dos gastos das parcelas para quitar")
+    @GetMapping("/gastos/quitar")
+    public ResponseEntity<Double> getSumParcelasToPayOff(@RequestParam(value = "nomePagamento", required = false) String nomePagamento,
+                                                        @RequestParam(value = "idsItem", required = false) List<Long> idsItem) {
+        return ResponseEntity.ok(itemService.getSumParcelasToPayOff(nomePagamento, idsItem));
     }
 
     @Operation(summary = "Paga os itens pelo banco")
     @PatchMapping("/pay")
-    public ResponseEntity<List<ItemResponse>> payItemByBanco(@RequestParam(value = "banco") Banco banco) throws ItemNotFoundException {
-        return ResponseEntity.ok(itemService.payByBanco(banco).stream().map(ItemResponse::from).toList());
+    public ResponseEntity<List<ItemResponse>> payItemByBanco(@RequestParam(value = "nomePagamento") String nomePagamento) throws ItemNotFoundException {
+        return ResponseEntity.ok(itemService.payByBanco(nomePagamento).stream().map(ItemResponse::from).toList());
     }
 
     @Operation(summary = "Paga um item pelo id")

@@ -1,7 +1,6 @@
 package br.com.iug.entity.history;
 
 import br.com.iug.entity.Item;
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,7 +34,7 @@ public class ItemHistory {
     private String nome;
 
     @Column(name = "BANCO")
-    private Banco banco;
+    private String banco;
 
     @OneToOne(cascade = CascadeType.ALL)
     private ParcelaHistory parcela;
@@ -61,7 +60,7 @@ public class ItemHistory {
         return ItemHistory.builder()
                 .id(item.getId())
                 .nome(item.getNome())
-                .banco(item.getBanco())
+//                .banco(item.getBanco())
                 .parcela(item.getParcela() != null ? ParcelaHistory.from(item.getParcela()) : null)
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
@@ -74,7 +73,7 @@ public class ItemHistory {
         return Item.builder()
                 .id(this.id)
                 .nome(this.nome)
-                .banco(this.banco)
+//                .banco(this.banco)
                 .parcela(this.parcela.toParcela())
                 .valor(this.valor)
                 .valorRestante(this.valorRestante)

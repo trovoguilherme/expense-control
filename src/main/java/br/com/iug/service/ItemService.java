@@ -2,12 +2,12 @@ package br.com.iug.service;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.Parcela;
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.request.ItemRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.exception.ItemNotUpdateParcelaException;
+import br.com.iug.exception.NotFoundException;
 import br.com.iug.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,19 +23,28 @@ public class ItemService {
 
     private final ItemHistoryService itemHistoryService;
 
+    private  final PagamentoService pagamentoService;
+
     public List<Item> findAllWithParams(String nome, String banco, Status status) {
-        return itemRepository.findAllWithParams(nome, banco, status);
+        return itemRepository.findAll();
     }
 
     public Item findById(long id) throws ItemNotFoundException {
         return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item não encontrado!"));
     }
 
-    public double getTotalValue(Banco banco, List<Long> idItens) {
-        return itensSumByParam(banco, idItens);
+    public double getSumParcelasByMonth(String pagamento, List<Long> idItens) {
+        return getItens(pagamento, idItens)
+                .stream().mapToDouble(Item::getValor).sum();
+    }
+    public Double getSumParcelasToPayOff(String pagamento, List<Long> idItens) {
+        return getItens(pagamento, idItens)
+                .stream().mapToDouble(Item::getValorRestante).sum();
     }
 
     public Item save(Item itemRequest) {
+        var pagamentoFound = pagamentoService.findByNome(itemRequest.getPagamento().getNome());
+        itemRequest.setPagamento(pagamentoFound);
         return itemRepository.save(itemRequest);
     }
 
@@ -55,11 +64,11 @@ public class ItemService {
         return itemFound;
     }
 
-    public List<Item> payByBanco(Banco banco) throws ItemNotFoundException {
-        var itens = itemRepository.findAllByBanco(banco);
+    public List<Item> payByBanco(String pagamento) throws ItemNotFoundException {
+        var itens = itemRepository.findAllByPagamento(pagamentoService.findByNome(pagamento));
 
         if (itens.isEmpty()) {
-            throw new ItemNotFoundException("Itens com o banco "+banco+" não encontrado!");
+            throw new ItemNotFoundException("Itens com o pagamento "+pagamento+" não encontrado!");
         }
 
         itens.forEach(this::payItemOrSaveInHistory);
@@ -91,21 +100,26 @@ public class ItemService {
 
     }
 
-    private double itensSumByParam(Banco banco, List<Long> idItens) {
-        if (banco != null && idItens != null) {
-            return Stream.concat(itemRepository.findAllByBanco(banco).stream(),
-                            itemRepository.findAllByIdIn(idItens).stream())
-                    .distinct().mapToDouble(Item::getValor).sum();
+    private List<Item> getItens(String pagamento, List<Long> idItens) {
+        List<Item> itens;
 
-        } else if (banco != null && idItens == null) {
-            return itemRepository.findAllByBanco(banco).stream().mapToDouble(Item::getValor).sum();
+        if (pagamento != null && idItens != null) {
+            itens = Stream.concat(
+                    itemRepository.findAllByPagamento(pagamentoService.findByNome(pagamento)).stream(),
+                    itemRepository.findAllByIdIn(idItens).stream()
+            ).toList();
 
-        } else if (banco == null && idItens != null) {
-            return itemRepository.findAllByIdIn(idItens).stream().mapToDouble(Item::getValor).sum();
+        } else if (pagamento != null) {
+            itens =  itemRepository.findAllByPagamento(pagamentoService.findByNome(pagamento));
+
+        } else if (idItens != null) {
+            itens = itemRepository.findAllByIdIn(idItens);
 
         } else {
-            return itemRepository.findAll().stream().mapToDouble(Item::getValor).sum();
+            itens = itemRepository.findAll();
         }
+
+        return itens;
     }
 
     private void verifyUpdateParcela(Parcela parcela, ParcelaRequest parcelaRequest) throws ItemNotUpdateParcelaException {
