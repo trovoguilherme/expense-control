@@ -1,7 +1,7 @@
 package br.com.iug.entity;
 
-import br.com.iug.entity.request.ParcelaRequest;
-import br.com.iug.entity.response.ParcelaResponse;
+import br.com.iug.dto.request.ParcelaRequest;
+import br.com.iug.dto.response.ParcelaResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package br.com.iug.controller;
 
 import br.com.iug.entity.Pagamento;
-import br.com.iug.entity.request.PagamentoRequest;
+import br.com.iug.dto.request.PagamentoRequest;
 import br.com.iug.service.PagamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

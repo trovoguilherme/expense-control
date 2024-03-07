@@ -1,6 +1,6 @@
 package br.com.iug.integration.client;
 
-import br.com.iug.entity.request.PagamentoRequest;
+import br.com.iug.dto.request.PagamentoRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.parsing.Parser;

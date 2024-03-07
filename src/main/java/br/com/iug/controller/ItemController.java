@@ -2,13 +2,11 @@ package br.com.iug.controller;
 
 import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.history.ItemHistory;
-import br.com.iug.entity.request.ItemRequest;
-import br.com.iug.entity.response.ItemResponse;
-import br.com.iug.exception.BancoNotFoundException;
+import br.com.iug.dto.request.ItemRequest;
+import br.com.iug.dto.response.ItemResponse;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.exception.ItemNotUpdateParcelaException;
 import br.com.iug.exception.NotFoundException;
-import br.com.iug.exception.PagamentoNotFoundException;
 import br.com.iug.service.ItemHistoryService;
 import br.com.iug.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;

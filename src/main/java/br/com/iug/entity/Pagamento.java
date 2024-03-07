@@ -1,6 +1,6 @@
 package br.com.iug.entity;
 
-import br.com.iug.entity.response.PagamentoResponse;
+import br.com.iug.dto.response.PagamentoResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

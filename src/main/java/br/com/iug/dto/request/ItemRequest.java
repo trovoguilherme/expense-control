@@ -1,7 +1,6 @@
-package br.com.iug.entity.request;
+package br.com.iug.dto.request;
 
 import br.com.iug.entity.Item;
-import br.com.iug.entity.Pagamento;
 import br.com.iug.entity.enums.Status;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package br.com.iug.entity.request;
+package br.com.iug.dto.request;
 
 import br.com.iug.entity.Pagamento;
 import jakarta.validation.constraints.NotBlank;

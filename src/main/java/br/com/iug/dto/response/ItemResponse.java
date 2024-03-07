@@ -1,4 +1,4 @@
-package br.com.iug.entity.response;
+package br.com.iug.dto.response;
 
 import br.com.iug.entity.Item;
 import br.com.iug.entity.enums.Status;

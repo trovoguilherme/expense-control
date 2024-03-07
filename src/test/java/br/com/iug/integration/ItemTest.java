@@ -1,10 +1,10 @@
 package br.com.iug.integration;
 
 import br.com.iug.entity.enums.Status;
-import br.com.iug.entity.request.ItemRequest;
-import br.com.iug.entity.request.PagamentoRequest;
-import br.com.iug.entity.request.ParcelaRequest;
-import br.com.iug.entity.response.ItemResponse;
+import br.com.iug.dto.request.ItemRequest;
+import br.com.iug.dto.request.PagamentoRequest;
+import br.com.iug.dto.request.ParcelaRequest;
+import br.com.iug.dto.response.ItemResponse;
 import br.com.iug.exception.ItemNotFoundException;
 import br.com.iug.integration.client.ItemClient;
 import br.com.iug.integration.helper.db.ItemDBHelper;
