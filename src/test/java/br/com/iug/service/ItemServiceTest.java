@@ -1,13 +1,15 @@
 package br.com.iug.service;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.Pagamento;
 import br.com.iug.entity.Parcela;
-import br.com.iug.entity.enums.Banco;
 import br.com.iug.entity.enums.Status;
 import br.com.iug.entity.request.ItemRequest;
+import br.com.iug.entity.request.PagamentoRequest;
 import br.com.iug.entity.request.ParcelaRequest;
 import br.com.iug.exception.BancoNotFoundException;
 import br.com.iug.exception.ItemNotFoundException;
+import br.com.iug.exception.ItemNotUpdateParcelaException;
 import br.com.iug.repository.ItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,9 @@ public class ItemServiceTest {
     private ItemRepository itemRepository;
 
     @Mock
+    private PagamentoService pagamentoService;
+
+    @Mock
     private ItemHistoryService itemHistoryService;
 
     @Captor
@@ -77,21 +82,24 @@ public class ItemServiceTest {
     @DisplayName("Deve pagar itens com banco NUBANK")
     void shouldPayItensByBanco() throws ItemNotFoundException {
         List<Item> itens = generateItens();
+        final String nomePagemto = "NUBANK";
 
-        when(itemRepository.findAllByBanco(any(Banco.class))).thenReturn(itens);
+        when(pagamentoService.findByNome(anyString())).thenReturn(generatePagamento(nomePagemto));
+        when(itemRepository.findAllByPagamento(any(Pagamento.class))).thenReturn(itens);
 
-        itemService.payByBanco(Banco.NUBANK);
+        itemService.payByBanco(nomePagemto);
 
         assertEquals(0, itens.get(0).getValorRestante());
     }
 
-//    @Test
-//    @DisplayName("Deve lançar uma exceção quando não encontrar itens pelo banco")
-//    void shouldThrowItemNotFoundExceptionWhenNotFoudItensByBanco() throws ItemNotFoundException {
-//        when(itemRepository.findAllByBanco(any(Banco.class))).thenReturn(List.of());
-//
-//        assertThrows(ItemNotFoundException.class, () -> itemService.payByBanco(Banco.NUBANK));
-//    }
+    @Test
+    @DisplayName("Deve lançar uma exceção quando não encontrar itens pelo banco")
+    void shouldThrowItemNotFoundExceptionWhenNotFoudItensByBanco() throws ItemNotFoundException {
+        when(pagamentoService.findByNome(anyString())).thenReturn(generatePagamento("NUBANK"));
+        when(itemRepository.findAllByPagamento(any(Pagamento.class))).thenReturn(List.of());
+
+        assertThrows(ItemNotFoundException.class, () -> itemService.payByBanco("NUBANK"));
+    }
 
     @Test
     @DisplayName("Deve deletar um item pelo id")
@@ -106,7 +114,9 @@ public class ItemServiceTest {
     @Test
     @DisplayName("Deve salvar um item")
     void shouldSaveItem() {
-        final ItemRequest itemRequest = new ItemRequest("Skate", Banco.NUBANK, 1200, new ParcelaRequest(1 ,2), Status.ATIVO);
+        final ItemRequest itemRequest = new ItemRequest("Skate", new PagamentoRequest("NUBANK"), 1200, new ParcelaRequest(1 ,2), Status.ATIVO);
+
+        when(pagamentoService.existsByNome(anyString())).thenReturn(true);
 
         itemService.save(itemRequest.toItem());
 
@@ -115,9 +125,9 @@ public class ItemServiceTest {
 
     @Test
     @DisplayName("Deve atualizar um item que tem parcela")
-    void shouldUpdateItemWithParcela() throws ItemNotFoundException {
+    void shouldUpdateItemWithParcela() throws ItemNotFoundException, ItemNotUpdateParcelaException {
         var item = generateItens().get(0);
-        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, new ParcelaRequest(9, 3), Status.ATIVO);
+        var itemRequest = new ItemRequest("item novo", new PagamentoRequest("NUBANK"), 3000, new ParcelaRequest(9, 3), Status.ATIVO);
 
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
 
@@ -132,9 +142,9 @@ public class ItemServiceTest {
 
     @Test
     @DisplayName("Deve atualizar um item sem parcela")
-    void shouldUpdateItemWithoutParcela() throws ItemNotFoundException {
+    void shouldUpdateItemWithoutParcela() throws ItemNotFoundException, ItemNotUpdateParcelaException {
         var item = generateItens().get(1);
-        var itemRequest = new ItemRequest("item novo", Banco.NUBANK, 3000, null, Status.ATIVO);
+        var itemRequest = new ItemRequest("item novo", new PagamentoRequest("NUBANK"), 3000, null, Status.ATIVO);
 
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
 
@@ -152,23 +162,24 @@ public class ItemServiceTest {
 
     @Test
     @DisplayName("Deve pegar o valor restante total de todos os itens")
-    void shouldGetValorRestanteTotal() throws BancoNotFoundException {
+    void shouldGetValorRestanteTotal() {
         when(itemRepository.findAll()).thenReturn(generateItens());
 
-        var valorRestanteTotal = itemService.getTotalValue(null, null);
+        var valorRestanteTotal = itemService.getSumParcelasByMonth(null, null);
 
         assertThat(valorRestanteTotal).isEqualTo(450);
     }
 
     @Test
     @DisplayName("Deve pegar o valor restante total de todos os itens pelo banco")
-    void shouldGetValorRestanteTotalByBanco() throws BancoNotFoundException {
+    void shouldGetValorRestanteTotalByBanco() {
         List<Item> mutableItens = new ArrayList<>(generateItens());
         mutableItens.remove(3);
 
-        when(itemRepository.findAllByBanco(any(Banco.class))).thenReturn(mutableItens);
+        when(pagamentoService.findByNome(anyString())).thenReturn(generatePagamento("NUBANK"));
+        when(itemRepository.findAllByPagamento(any(Pagamento.class))).thenReturn(mutableItens);
 
-        var valorRestanteTotal = itemService.getTotalValue(Banco.NUBANK, null);
+        var valorRestanteTotal = itemService.getSumParcelasByMonth("NUBANK", null);
 
         assertThat(valorRestanteTotal).isEqualTo(350);
     }
@@ -181,18 +192,22 @@ public class ItemServiceTest {
 
         when(itemRepository.findAllByIdIn(anyList())).thenReturn(mutableItens);
 
-        var actualValor = itemService.getTotalValue(null, List.of(1L, 3L, 4L));
+        var actualValor = itemService.getSumParcelasByMonth(null, List.of(1L, 3L, 4L));
 
         assertThat(actualValor).isEqualTo(300);
     }
 
     private List<Item> generateItens() {
         return List.of(
-                new Item(1, "GPU", Banco.NUBANK, new Parcela(1, 2, 1), 100, 100, 300, Status.ATIVO, LocalDateTime.now()),
-                new Item(2, "Steam", Banco.NUBANK, null, 150, 150, 150, Status.ATIVO, LocalDateTime.now()),
-                new Item(3, "Skate", Banco.NUBANK, new Parcela(2, 2, 2), 100, 200, 400, Status.ATIVO, LocalDateTime.now()),
-                new Item(4, "Shape", Banco.ITAU, new Parcela(1, 2, 3), 100, 300, 500, Status.ATIVO, LocalDateTime.now())
+                new Item(1, "GPU", new Pagamento(1, "NUBANK", LocalDateTime.now()), new Parcela(1, 2, 1), 100, 100, 300, Status.ATIVO, false, LocalDateTime.now()),
+                new Item(2, "Steam", new Pagamento(1, "NUBANK", LocalDateTime.now()), null, 150, 150, 150, Status.ATIVO, false, LocalDateTime.now()),
+                new Item(3, "Skate", new Pagamento(1, "NUBANK", LocalDateTime.now()), new Parcela(2, 2, 2), 100, 200, 400, Status.ATIVO, false, LocalDateTime.now()),
+                new Item(4, "Shape", new Pagamento(1, "ITAU", LocalDateTime.now()), new Parcela(1, 2, 3), 100, 300, 500, Status.ATIVO, false, LocalDateTime.now())
         );
+    }
+
+    private Pagamento generatePagamento(String nome) {
+        return new Pagamento(1, nome, LocalDateTime.now());
     }
 
 }
