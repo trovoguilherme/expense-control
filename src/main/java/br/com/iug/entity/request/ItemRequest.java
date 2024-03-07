@@ -20,6 +20,7 @@ public class ItemRequest {
     @NotBlank(message = "{"+ ERROR_ITEM_NOME_VAZIO +"}")
     private String nome;
 
+    @Valid
     private PagamentoRequest pagamento;
 
     @Positive(message = "{" + ERROR_ITEM_MENOR_QUE_ZERO + "}")
