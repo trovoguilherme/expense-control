@@ -22,8 +22,13 @@ public class PagamentoService {
         return pagamentoRepository.findAll();
     }
 
-    public Pagamento findByNome(String nome) {
+    public Pagamento findByNome(String nome) throws NotFoundException {
         return pagamentoRepository.findByNome(nome).orElseThrow(() -> new NotFoundException("Nome de pagamento não encontrado"));
+    }
+
+    public void deleteByName(String nome) {
+        var pagamento = findByNome(nome);
+        pagamentoRepository.delete(pagamento);
     }
 
 }

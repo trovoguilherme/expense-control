@@ -6,7 +6,9 @@ import br.com.iug.service.PagamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,12 @@ public class PagamentoController {
     @GetMapping
     public ResponseEntity<List<Pagamento>> findAll() {
         return ResponseEntity.ok(pagamentoService.findAll());
+    }
+
+    @DeleteMapping("/{nome}")
+    public ResponseEntity<Void> deleteByName(@PathVariable("nome") String nome) {
+        pagamentoService.deleteByName(nome);
+        return ResponseEntity.ok().build();
     }
 
 }
