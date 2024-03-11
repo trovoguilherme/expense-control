@@ -1,22 +1,6 @@
 version: '3.9'
 
 services:
-  database:
-    image: mysql:5.7
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'expense'
-      MYSQL_USER: 'gui'
-      MYSQL_PASSWORD: 'senha123'
-      MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   sonarqube:
     image: sonarqube:8.9.9-community
     expose:
@@ -81,6 +65,5 @@ volumes:
   sonarqube_bundled-pluginss:
   postgresqll:
   postgresql_dataa:
-  mysql_data:
   expense-control-postgres-db-data:
     driver: local
