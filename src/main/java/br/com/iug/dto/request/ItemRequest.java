@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static br.com.iug.entity.utility.JavaCodes.ERROR_ITEM_MENOR_QUE_ZERO;
-import static br.com.iug.entity.utility.JavaCodes.ERROR_ITEM_NOME_VAZIO;
+import static br.com.iug.utility.JavaCodes.ERROR_ITEM_MENOR_QUE_ZERO;
+import static br.com.iug.utility.JavaCodes.ERROR_ITEM_NOME_VAZIO;
 
 
 @Getter

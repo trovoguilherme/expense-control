@@ -1,4 +1,4 @@
-package br.com.iug.entity.utility;
+package br.com.iug.utility;
 
 import lombok.experimental.UtilityClass;
 
