@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class ParcelaHistory {
 
     @Id
-    @Column(name = "ID_PARCELA")
+    @Column(name = "ID_PARCELA_HISTORY")
     private long id;
 
     @Column(name = "QTD_PAGA")

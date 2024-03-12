@@ -21,7 +21,7 @@ public class ItemHistoryService {
 
     public List<ItemHistory> findAll(String banco) {
         if (banco != null) {
-            return itemHistoryRepository.findAllByBanco(banco);
+            return itemHistoryRepository.findAllByPagamentoNome(banco);
         }
         return itemHistoryRepository.findAll();
     }

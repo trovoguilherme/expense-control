@@ -12,6 +12,6 @@ public interface ItemHistoryRepository extends JpaRepository<ItemHistory, Long> 
 
     Optional<ItemHistory> findByNome(String nome);
 
-    List<ItemHistory> findAllByBanco(String banco);
+    List<ItemHistory> findAllByPagamentoNome(String banco);
 
 }

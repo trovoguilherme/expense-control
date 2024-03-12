@@ -1,6 +1,7 @@
 package br.com.iug.entity.history;
 
 import br.com.iug.entity.Item;
+import br.com.iug.entity.Pagamento;
 import br.com.iug.entity.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -8,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,16 +29,18 @@ import java.time.LocalDateTime;
 public class ItemHistory {
 
     @Id
-    @Column(name = "ID_ITEM")
+    @Column(name = "ID_ITEM_HISTORY")
     private long id;
 
     @Column(name = "NOME")
     private String nome;
 
-    @Column(name = "BANCO")
-    private String banco;
+    @OneToOne
+    @JoinColumn(name = "ID_PAGAMENTO")
+    private Pagamento pagamento;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PARCELA_HISTORY")
     private ParcelaHistory parcela;
 
     @Column(name = "VALOR")
@@ -60,7 +64,7 @@ public class ItemHistory {
         return ItemHistory.builder()
                 .id(item.getId())
                 .nome(item.getNome())
-//                .banco(item.getBanco())
+                .pagamento(item.getPagamento())
                 .parcela(item.getParcela() != null ? ParcelaHistory.from(item.getParcela()) : null)
                 .valor(item.getValor())
                 .valorRestante(item.getValorRestante())
