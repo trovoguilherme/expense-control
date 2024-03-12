@@ -1,7 +1,6 @@
 package br.com.iug.entity;
 
 import br.com.iug.dto.request.FaturaCartaoRequest;
-import br.com.iug.dto.request.PagamentoRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +14,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -32,6 +34,10 @@ public class FaturaCartao {
     @Setter
     @Column(name = "VALOR")
     private double valor;
+
+    @Column(name = "CRIADO_EM")
+    @CreationTimestamp
+    private LocalDateTime criadoEm;
 
     @Setter
     @OneToOne
